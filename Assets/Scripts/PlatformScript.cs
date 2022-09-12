@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlatformScript : MonoBehaviour
 {
-    public float minx = 2f, maxx = 3.5f, speed = 5f;
-
-    private bool canMove;
+    public float min_x_left = 0.2f, max_x_right = 1.06f, speed = 10f, scaleRate = 0.1f;
+    private bool canMove, dropped;
     private Rigidbody2D body;
 
     void Awake()
@@ -19,45 +18,40 @@ public class PlatformScript : MonoBehaviour
     void Start()
     {
         canMove = true;
-        speed = 4f;
-
-        if(Random.Range(0, 2) > 0){
-            speed *= -1f;
-        }
+        dropped = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveBox();
+        MovePlatform();
 
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetKeyDown (KeyCode.D))
         {
-            Dropbox();
+            DropPlatform();
         }
     }
 
-    void Dropbox()
+    void DropPlatform()
     {
         canMove = false;
         body.gravityScale = 1f;
     }
 
-    void MoveBox()
+    void MovePlatform()
     {
         if(canMove)
         {
-            Vector3 temp = transform.position;
-            temp.x += speed * Time.deltaTime;
+            Vector3 pos = transform.localScale;
 
-            if(temp.x > maxx){
-                speed *= -1f;
-            }
-            else if(temp.x < minx){
-                speed *= -1f;
+            if(pos.x > max_x_right || pos.x < min_x_left){
+                speed *= -1f; // change direction
             }
 
-            transform.position = temp;
+            transform.localScale = new Vector3(
+                transform.localScale.x + (scaleRate * speed * Time.deltaTime), 
+                transform.localScale.y, 
+                transform.localScale.z);
         }
     }
 
@@ -65,8 +59,38 @@ public class PlatformScript : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
-            body.isKinematic = false;
-            body.constraints = RigidbodyConstraints2D.FreezePosition;
+            RestartGame();
         }
+
+        if(target.gameObject.tag == "Hinge")
+        {
+            dropped = true;
+            StartCoroutine(ScaleDownAnimation(0.5f));
+        }
+    }
+
+    IEnumerator ScaleDownAnimation(float time)
+    {
+        float i = 0;
+        float rate = 1 / time;
+
+        Vector3 fromScale = transform.localScale;
+        Vector3 toScale = new Vector3(1.065f, fromScale.y, fromScale.z);
+        while (i<1)
+        {
+            i += Time.deltaTime * rate;
+            transform.localScale = Vector3.Lerp(fromScale, toScale, i);
+            yield return 0;
+        }
+
+        body.isKinematic = false;
+        body.constraints = RigidbodyConstraints2D.FreezePosition;
+    }
+
+    void RestartGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
     }
 }
