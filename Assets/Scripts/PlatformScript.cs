@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlatformScript : MonoBehaviour
 {
-    public float min_x_left = 0.2f, max_x_right = 1.06f, speed = 10f, scaleRate = 0.1f;
-    private bool canMove, dropped;
+    private float min_x_left = 0.2f, max_x_right = 0.91f, speed = 20f, scaleRate = 0.1f;
+    private bool canMove;
     private Rigidbody2D body;
 
     void Awake()
@@ -18,7 +18,6 @@ public class PlatformScript : MonoBehaviour
     void Start()
     {
         canMove = true;
-        dropped = false;
     }
 
     // Update is called once per frame
@@ -64,7 +63,6 @@ public class PlatformScript : MonoBehaviour
 
         if(target.gameObject.tag == "Hinge")
         {
-            dropped = true;
             StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
@@ -75,7 +73,7 @@ public class PlatformScript : MonoBehaviour
         float rate = 1 / time;
 
         Vector3 fromScale = transform.localScale;
-        Vector3 toScale = new Vector3(1.065f, fromScale.y, fromScale.z);
+        Vector3 toScale = new Vector3(max_x_right, fromScale.y, fromScale.z);
         while (i<1)
         {
             i += Time.deltaTime * rate;
