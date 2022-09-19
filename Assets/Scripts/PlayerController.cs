@@ -13,11 +13,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         speed = 3.5f;
-        jump = 140;
+        jump = 215;
     }
 
     void RestartGame()
     {
+        CoinCollection.totalCoins = 0;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water" || target.gameObject.tag == "Hinge")
+        if(target.gameObject.tag == "Water" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
         {
             RestartGame();
         }
