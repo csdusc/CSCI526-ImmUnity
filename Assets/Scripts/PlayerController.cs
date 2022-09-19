@@ -1,6 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// For Analytics
+using System;
+using System.Globalization;
+using Unity.Services.Core;
+using UnityEngine.Networking;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,7 +14,36 @@ public class PlayerController : MonoBehaviour
     public float move;
     public float currentPlatform;
     public Rigidbody2D rb;
+    // For Analytics
+    [SerializeField] private string URL;
+    private long _sessionID;
 
+    // Analytics
+    public void Send()
+    {
+        _sessionID = DateTime.Now.Ticks;
+        StartCoroutine(Post(_sessionID.ToString()));
+    }
+    private IEnumerator Post(string sessionID)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.929766647", sessionID);
+        form.AddField("entry.1560238514", CoinCollection.totalCoins.ToString());
+        using (UnityWebRequest www = UnityWebRequest.Post(URL, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
     void RestartGame()
     {
+        Send(); // Send analytics of total coins collected by the player in this session
         CoinCollection.totalCoins = 0;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
