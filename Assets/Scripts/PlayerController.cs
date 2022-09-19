@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jump;
     public float move;
+    public float currentPlatform;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     {
         speed = 3.5f;
         jump = 215;
+        currentPlatform = -1f;
     }
 
     void RestartGame()
@@ -49,6 +51,14 @@ public class PlayerController : MonoBehaviour
         if(target.tag == "GameOver")
         {
             RestartGame();
+        }
+        else if(target.tag == "SetPlatform0")
+        {
+            currentPlatform = 0;
+        }
+        else if(target.tag == "SetPlatform1")
+        {
+            currentPlatform = 1;
         }
     }
 }

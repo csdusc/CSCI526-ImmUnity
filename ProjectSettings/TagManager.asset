@@ -9,6 +9,10 @@ TagManager:
   - GameOver
   - Obstacle
   - Hinge
+  - Platform_0
+  - Platform_1
+  - SetPlatform0
+  - SetPlatform1
   layers:
   - Default
   - TransparentFX
