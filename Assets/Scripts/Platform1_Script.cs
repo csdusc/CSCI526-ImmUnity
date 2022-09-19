@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformScript : MonoBehaviour
+public class Platform1_Script : MonoBehaviour
 {
     private float min_x_left = 0.2f, max_x_right = 0.91f, speed = 20f, scaleRate = 0.1f;
     private bool canMove;
     private Rigidbody2D body;
+    public PlayerController playerController;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class PlatformScript : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKeyDown (KeyCode.D))
+        if(Input.GetKey(KeyCode.Space) && playerController.currentPlatform == 1)
         {
             DropPlatform();
         }
