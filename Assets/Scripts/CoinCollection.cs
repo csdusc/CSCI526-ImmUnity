@@ -6,11 +6,18 @@ public class CoinCollection : MonoBehaviour
 {
     
     public static int totalCoins = 0; 
+    private float rotateSpeed = 0.5f;
 
     void Awake()
     {
         //Make Collider2D as trigger 
         GetComponent<Collider2D>().isTrigger = true;
+    }
+
+    void Update() 
+    {
+        // transform.Rotate(new Vector3(0,rotateSpeed ,0) * Time.deltaTime);
+        transform.Rotate(0,rotateSpeed ,0, Space.World);
     }
 
     void OnTriggerEnter2D(Collider2D c2d)
@@ -23,6 +30,7 @@ public class CoinCollection : MonoBehaviour
             Destroy(gameObject);
         }
         
-     }
+     }  
+
     
 }

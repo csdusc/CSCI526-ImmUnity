@@ -13,6 +13,7 @@ TagManager:
   - Platform_1
   - SetPlatform0
   - SetPlatform1
+  - CoinPlatform
   layers:
   - Default
   - TransparentFX

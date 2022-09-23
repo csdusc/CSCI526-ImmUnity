@@ -26,7 +26,7 @@ public class Platform1_Script : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKey(KeyCode.Space) && playerController.currentPlatform == 1)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
         {
             DropPlatform();
         }
