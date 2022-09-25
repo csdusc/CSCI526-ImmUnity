@@ -71,5 +71,9 @@ public class PlayerController : MonoBehaviour
         {
             currentPlatform = 1;
         }
+        else if(target.tag == "LevelCompleted")
+        {
+            RestartGame();
+        }
     }
 }
