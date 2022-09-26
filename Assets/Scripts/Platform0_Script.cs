@@ -59,6 +59,8 @@ public class Platform0_Script : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
+            playerController.Send("Bridge1");
+            playerController.Send2(false);
             RestartGame();
         }
 

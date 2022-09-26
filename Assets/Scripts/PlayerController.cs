@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// For Analytics
+using System;
+using System.Globalization;
+using Unity.Services.Core;
+using UnityEngine.Networking;
+
 public class PlayerController : MonoBehaviour
 {
     public float speed;
@@ -11,6 +17,69 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     private bool isJumping; //added code
 
+    // For Analytics
+ 
+    //[SerializeField] private string URL; // URL for ObstacleDeathTrackingAnalytics
+    //[SerializeField] private string URL2; // URL for LevelCompletionAnalytics
+    private long _sessionID;
+    private string _obstacleAtWhichKilled;
+    
+    private bool _playerStarted = true;
+    //private bool _playerCompletedLevel = false;
+    
+    public void Send(string obstacleAtWhichKilled)
+    {
+        _sessionID = DateTime.Now.Ticks;
+        StartCoroutine(Upload(_sessionID.ToString(), obstacleAtWhichKilled));
+    }
+    
+    private IEnumerator Upload(string sessionID, string obstacleAtWhichKilled)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.238388247", sessionID); 
+        form.AddField("entry.263405774", obstacleAtWhichKilled); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSc3i-n9x8AJqcv515EK0m2QpnjE469JP2JZFj9kZ6feGUkXyQ/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    public void Send2(bool playerCompletedLevel)
+    {
+        StartCoroutine(Upload2(_playerStarted.ToString(), playerCompletedLevel.ToString()));
+    }
+
+    private IEnumerator Upload2(string playerStarted, string playerCompletedLevel)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1296817409", playerStarted); 
+        form.AddField("entry.1997032823", playerCompletedLevel); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSfWrTbL7RnzfRwhPSt5qotC_VetYFLBERdKuWV-fk95mXjRCQ/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +118,19 @@ public class PlayerController : MonoBehaviour
     {
         if(target.gameObject.tag == "Water" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
         {
+            if (target.gameObject.tag == "Water")
+            {
+                Send("JumpedIntoWater");
+            }
+            else if (target.gameObject.tag == "Obstacle")
+            {
+                Send(target.gameObject.name);
+            }
+            else
+            {
+                Send(target.gameObject.tag);
+            }
+            Send2(false);
             RestartGame();
         }
         if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
@@ -61,6 +143,8 @@ public class PlayerController : MonoBehaviour
     {
         if(target.tag == "GameOver")
         {
+            Send(target.gameObject.tag);
+            Send2(false);
             RestartGame();
         }
         else if(target.tag == "SetPlatform0")
@@ -73,6 +157,8 @@ public class PlayerController : MonoBehaviour
         }
         else if(target.tag == "LevelCompleted")
         {
+            //Send(target.gameObject.tag);
+            Send2(true);
             RestartGame();
         }
     }

@@ -59,6 +59,8 @@ public class Platform1_Script : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
+            playerController.Send("Bridge2");
+            playerController.Send2(false);
             RestartGame();
         }
 
@@ -88,6 +90,7 @@ public class Platform1_Script : MonoBehaviour
 
     void RestartGame()
     {
+        //playerController.Send();
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
