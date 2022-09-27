@@ -26,7 +26,7 @@ public class Platform0_Script : MonoBehaviour
     {
         // MovePlatform(); // First platform does not move
 
-        if(Input.GetKey(KeyCode.Space) && playerController.currentPlatform == 0)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 0)
         {
             DropPlatform();
         }
@@ -59,6 +59,8 @@ public class Platform0_Script : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
+            playerController.Send("Bridge1");
+            playerController.Send2(false);
             RestartGame();
         }
 
