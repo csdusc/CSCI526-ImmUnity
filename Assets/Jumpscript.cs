@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class textScript : MonoBehaviour
+public class Jumpscript : MonoBehaviour
 {
-   
-    public TMP_Text tmptext;
-    // Start is called before the first frame update
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if(Input.GetKey(KeyCode.Space))
 	  {
             Debug.Log("here");
             Destroy(gameObject);
