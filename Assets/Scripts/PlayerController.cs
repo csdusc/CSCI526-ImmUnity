@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     private bool isJumping; //added code
 
+    public GameOver_Manager gameOverManager;
+    public GameOver_Manager levelCompleteScreen;
+
     // For Analytics
  
     //[SerializeField] private string URL; // URL for ObstacleDeathTrackingAnalytics
@@ -131,7 +134,8 @@ public class PlayerController : MonoBehaviour
                 Send(target.gameObject.tag);
             }
             Send2(false);
-            RestartGame();
+            // RestartGame();
+            gameOverManager.SetGameOver();
         }
         if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
         {
@@ -145,7 +149,8 @@ public class PlayerController : MonoBehaviour
         {
             Send(target.gameObject.tag);
             Send2(false);
-            RestartGame();
+            // RestartGame();
+            gameOverManager.SetGameOver();
         }
         else if(target.tag == "SetPlatform0")
         {
@@ -159,7 +164,8 @@ public class PlayerController : MonoBehaviour
         {
             //Send(target.gameObject.tag);
             Send2(true);
-            RestartGame();
+            // RestartGame();
+            gameOverManager.SetLevelComplete();
         }
     }
 }

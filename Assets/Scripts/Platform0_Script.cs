@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Platform0_Script : MonoBehaviour
 {
-    private float min_x_left = 0.2f, max_x_right = 0.91f, speed = 0f, scaleRate = 0.1f;
+    private float min_x_left = 0.2f, max_x_right = 4.0f, speed = 0f, scaleRate = 0.1f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
+    public GameOver_Manager gameOverManager;
 
     void Awake()
     {
@@ -61,7 +62,9 @@ public class Platform0_Script : MonoBehaviour
         {
             playerController.Send("Bridge1");
             playerController.Send2(false);
-            RestartGame();
+            // RestartGame();
+            gameOverManager.SetGameOver();
+
         }
 
         if(target.gameObject.tag == "Hinge")
