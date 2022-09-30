@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Platform1_Script : MonoBehaviour
 {
-    private float min_x_left = 0.2f, max_x_right = 0.91f, speed = 20f, scaleRate = 0.1f;
+    private float min_x_left = 0.5f, max_x_right = 4.0f, speed = 500f, scaleRate = 0.03f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
+    public GameOver_Manager gameOverManager;
 
     void Awake()
     {
@@ -44,8 +45,15 @@ public class Platform1_Script : MonoBehaviour
         {
             Vector3 pos = transform.localScale;
 
-            if(pos.x > max_x_right || pos.x < min_x_left){
-                speed *= -1f; // change direction
+            // if(pos.x > max_x_right || pos.x < min_x_left){
+            //     speed *= -1f; // change direction
+            // }
+
+            if(transform.localScale.x > max_x_right){
+                speed = -200f; // change direction
+            }
+            else if(transform.localScale.x < min_x_left){
+                speed = 200f; // change direction
             }
 
             transform.localScale = new Vector3(
@@ -61,7 +69,8 @@ public class Platform1_Script : MonoBehaviour
         {
             playerController.Send("Bridge2");
             playerController.Send2(false);
-            RestartGame();
+            // RestartGame();
+            gameOverManager.SetGameOver();
         }
 
         if(target.gameObject.tag == "Hinge")
