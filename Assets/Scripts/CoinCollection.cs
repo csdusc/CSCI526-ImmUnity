@@ -6,6 +6,7 @@ public class CoinCollection : MonoBehaviour
 {
     
     public static int totalCoins = 0; 
+    public static int totalScore = 3;
     private float rotateSpeed = 0.5f;
 
     void Awake()
