@@ -62,6 +62,7 @@ public class Platform0_Script : MonoBehaviour
         {
             playerController.Send("Bridge1");
             playerController.Send2(false);
+            playerController.Send3();
             // RestartGame();
             gameOverManager.SetGameOver();
 

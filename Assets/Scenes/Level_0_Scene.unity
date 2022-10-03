@@ -1048,7 +1048,7 @@ GameObject:
   - component: {fileID: 489534706}
   - component: {fileID: 489534705}
   m_Layer: 0
-  m_Name: Enemy3
+  m_Name: Enemy2
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3772,7 +3772,7 @@ GameObject:
   - component: {fileID: 1181094861}
   - component: {fileID: 1181094863}
   m_Layer: 0
-  m_Name: Enemy2
+  m_Name: Enemy3
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
