@@ -69,8 +69,9 @@ public class Platform_10_Script : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
-            playerController.Send("Bridge2");
+            playerController.Send("Bridge1");
             playerController.Send2(false);
+            playerController.Send3();
             // RestartGame();
             gameOverManager.SetGameOver();
         }

@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
     public GameOver_Manager levelCompleteScreen;
 
     // For Analytics
- 
     //[SerializeField] private string URL; // URL for ObstacleDeathTrackingAnalytics
     //[SerializeField] private string URL2; // URL for LevelCompletionAnalytics
     private long _sessionID;
@@ -30,16 +29,19 @@ public class PlayerController : MonoBehaviour
     private bool _playerStarted = true;
     //private bool _playerCompletedLevel = false;
     
-    public void Send(string obstacleAtWhichKilled)
+    // Send analytics for which obstacle player dies at
+    public void Send(string obstacleAtWhichKilled) 
     {
         _sessionID = DateTime.Now.Ticks;
         StartCoroutine(Upload(_sessionID.ToString(), obstacleAtWhichKilled));
     }
     
+    // Upload analytics for which obstacle player dies at
     private IEnumerator Upload(string sessionID, string obstacleAtWhichKilled)
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.238388247", sessionID); 
+        form.AddField("entry.398560516", "0"); 
         form.AddField("entry.263405774", obstacleAtWhichKilled); 
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSc3i-n9x8AJqcv515EK0m2QpnjE469JP2JZFj9kZ6feGUkXyQ/formResponse", form))
@@ -57,14 +59,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Send analytics for player started vs player completed
     public void Send2(bool playerCompletedLevel)
     {
         StartCoroutine(Upload2(_playerStarted.ToString(), playerCompletedLevel.ToString()));
     }
 
+    // Upload analytics for player started vs player completed
     private IEnumerator Upload2(string playerStarted, string playerCompletedLevel)
     {
         WWWForm form = new WWWForm();
+        form.AddField("entry.1348894228", "0"); 
         form.AddField("entry.1296817409", playerStarted); 
         form.AddField("entry.1997032823", playerCompletedLevel); 
 
@@ -83,6 +88,33 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    // Send analytics for coins collected
+    public void Send3()
+    {
+        StartCoroutine(Upload3(CoinCollection.totalCoins.ToString()));
+    }
+
+    // Upload analytics for coins collected
+    private IEnumerator Upload3(string coinsCollected)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1343059877", "0"); 
+        form.AddField("entry.1440472328", coinsCollected); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSeSiwt_tfJAKJMgfO3_XUM9Mcy4qAY0k1GZ9EZxFniEgQ65Sg/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -134,6 +166,7 @@ public class PlayerController : MonoBehaviour
                 Send(target.gameObject.tag);
             }
             Send2(false);
+            Send3();
             // RestartGame();
             gameOverManager.SetGameOver();
         }
@@ -147,8 +180,9 @@ public class PlayerController : MonoBehaviour
     {
         if(target.tag == "GameOver")
         {
-            Send(target.gameObject.tag);
+            //Send(target.gameObject.tag);
             Send2(false);
+            Send3();
             // RestartGame();
             gameOverManager.SetGameOver();
         }
@@ -164,6 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             //Send(target.gameObject.tag);
             Send2(true);
+            Send3();
             // RestartGame();
             gameOverManager.SetLevelComplete();
         }
