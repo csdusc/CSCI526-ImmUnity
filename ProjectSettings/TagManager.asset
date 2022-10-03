@@ -15,6 +15,9 @@ TagManager:
   - SetPlatform1
   - CoinPlatform
   - LevelCompleted
+  - Freeze_PowerUp
+  - VerticalBridgeUp
+  - VerticalBridgeDown
   layers:
   - Default
   - TransparentFX
