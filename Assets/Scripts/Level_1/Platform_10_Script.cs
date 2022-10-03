@@ -9,7 +9,7 @@ public class Platform_10_Script : MonoBehaviour
     private float platformspeed = 300f;
     private bool canMove;
     private Rigidbody2D body;
-    public PlayerController playerController;
+    public PlayerController_L1 playerController;
     public GameOver_Manager gameOverManager;
 
     void Awake()
