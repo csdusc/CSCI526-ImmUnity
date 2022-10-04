@@ -23,13 +23,25 @@ public class GameOver_Manager : MonoBehaviour
         );
     }
 
+    public void startLevel1()
+    {
+        CoinCollection.totalCoins = 0;
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    public void startLevel2()
+    {
+        CoinCollection.totalCoins = 0;
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+    }
+
     public void SetLevelComplete()
     {
         levelCompleteScreen.SetActive(true);
         ScoreCanvas.SetActive(false);
         Time.timeScale = 0;
     }
-
-    
 }
 
