@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class CoinCollection : MonoBehaviour
 {
-    
     public static int totalCoins = 0; 
     public static int totalScore = 3;
     private float rotateSpeed = 0.5f;
+    public static bool canDropLastBridge = false;
+
+    public ColorChangeScript lastBridgeMarkColor;
 
     void Awake()
     {
         //Make Collider2D as trigger 
         GetComponent<Collider2D>().isTrigger = true;
+        canDropLastBridge = false;
     }
 
     void Update() 
@@ -28,10 +31,14 @@ public class CoinCollection : MonoBehaviour
         {
             //Add coin to counter
             totalCoins++;
-            Destroy(gameObject);
-        }
-        
-     }  
+            
+            if(totalCoins == totalScore)
+            {
+                lastBridgeMarkColor.ChangeColor();
+                canDropLastBridge = true;
+            }
 
-    
+            Destroy(gameObject);
+        }  
+     }    
 }

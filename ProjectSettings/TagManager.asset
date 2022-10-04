@@ -18,6 +18,7 @@ TagManager:
   - Freeze_PowerUp
   - VerticalBridgeUp
   - VerticalBridgeDown
+  - VerticalBridgeSpike
   layers:
   - Default
   - TransparentFX

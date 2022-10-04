@@ -9,6 +9,7 @@ public class Platform_11_Script : MonoBehaviour
     private Rigidbody2D body;
     public PlayerController_L1 playerController;
     public GameOver_Manager gameOverManager;
+    public CameraShake cameraShake;
 
     void Awake()
     {
@@ -29,7 +30,14 @@ public class Platform_11_Script : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
         {
-            DropPlatform();
+            if(!CoinCollection.canDropLastBridge)
+            {
+                StartCoroutine(cameraShake.Shake());
+            }
+            else
+            {
+                DropPlatform();
+            }
         }
     }
 
