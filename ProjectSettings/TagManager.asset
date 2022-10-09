@@ -19,6 +19,7 @@ TagManager:
   - VerticalBridgeUp
   - VerticalBridgeDown
   - VerticalBridgeSpike
+  - PlatformGameover
   layers:
   - Default
   - TransparentFX

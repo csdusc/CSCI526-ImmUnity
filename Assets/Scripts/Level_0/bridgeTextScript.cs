@@ -20,7 +20,7 @@ public class bridgeTextScript : MonoBehaviour
 
     }
 
-    public float time=5;
+    public float time=8;
     IEnumerator Start()
     {
         yield return new WaitForSeconds(time);

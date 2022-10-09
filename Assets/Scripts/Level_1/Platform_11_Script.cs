@@ -73,7 +73,7 @@ public class Platform_11_Script : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water")
+        if(target.gameObject.tag == "Water ")
         {
             playerController.Send("Bridge2");
             playerController.Send2(false);
@@ -85,6 +85,18 @@ public class Platform_11_Script : MonoBehaviour
         if(target.gameObject.tag == "Hinge")
         {
             StartCoroutine(ScaleDownAnimation(0.5f));
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if(target.gameObject.tag == "PlatformGameover")
+        {
+            playerController.Send("Bridge2");
+            playerController.Send2(false);
+            playerController.Send3();
+            // RestartGame();
+            gameOverManager.SetGameOver();
         }
     }
 
