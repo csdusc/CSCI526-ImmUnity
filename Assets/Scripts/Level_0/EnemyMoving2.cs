@@ -12,8 +12,8 @@ public class EnemyMoving2 : MonoBehaviour
     void Start()
     {
         speed = 2f;
-        minx = 24f;
-        maxx = 29f;
+        minx = 34.5f;
+        maxx = 37.5f;
     }
 
     // Update is called once per frame
