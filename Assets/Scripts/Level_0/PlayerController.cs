@@ -194,6 +194,10 @@ public class PlayerController : MonoBehaviour
         {
             currentPlatform = 1;
         }
+        else if(target.tag == "SetPlatform2")
+        {
+            currentPlatform = 2;
+        }
         else if(target.tag == "LevelCompleted")
         {
             //Send(target.gameObject.tag);

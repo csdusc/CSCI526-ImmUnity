@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform1_Script : MonoBehaviour
+public class Platform2_Script : MonoBehaviour
 {
     private float min_x_left = 0.5f, max_x_right = 4.0f, speed = 500f, scaleRate = 0.03f;
     private bool canMove;
@@ -28,11 +28,16 @@ public class Platform1_Script : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 2)
         {
-            
-            DropPlatform();
-            
+            if(!CoinCollection.canDropLastBridge)
+            {
+                StartCoroutine(cameraShake.Shake());
+            }
+            else
+            {
+                DropPlatform();
+            }
         }
     }
 
