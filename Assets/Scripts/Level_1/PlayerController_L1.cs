@@ -154,7 +154,7 @@ public class PlayerController_L1 : MonoBehaviour
     void Start()
     {
         speed = 3.5f;
-        jump = 215;
+        jump = 310;
         currentPlatform = -1f;
 
         anim = GetComponent<Animator>();
@@ -283,6 +283,7 @@ public class PlayerController_L1 : MonoBehaviour
     private void Die(){
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
+        Invoke("callGameOver", 1f);
     }
 
     private void callGameOver(){
