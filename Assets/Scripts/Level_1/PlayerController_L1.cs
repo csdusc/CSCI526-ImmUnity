@@ -15,6 +15,8 @@ public class PlayerController_L1 : MonoBehaviour
     public float move;
     public float currentPlatform;
     public Rigidbody2D rb;
+    private Animator anim;
+    private SpriteRenderer sprite;
     private bool isJumping; //added code
 
     public GameOver_Manager gameOverManager;
@@ -154,6 +156,9 @@ public class PlayerController_L1 : MonoBehaviour
         speed = 3.5f;
         jump = 215;
         currentPlatform = -1f;
+
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     void RestartGame()
@@ -167,7 +172,7 @@ public class PlayerController_L1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        move = Input.GetAxis("Horizontal");
+        move = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(speed * move, rb.velocity.y);
 
         if(Input.GetButtonDown("Jump") && !isJumping)
@@ -179,6 +184,24 @@ public class PlayerController_L1 : MonoBehaviour
             // isGrounded = true;
             rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
             isJumping = true;
+
+
+        }
+
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation(){
+        if(move > 0f){
+            anim.SetBool("running", true);
+            sprite.flipX = false;
+        }
+        else if(move < 0f){
+            anim.SetBool("running", true);
+            sprite.flipX = true;
+        }
+        else{
+            anim.SetBool("running", false);
         }
     }
 
@@ -201,7 +224,8 @@ public class PlayerController_L1 : MonoBehaviour
             Send2(false);
             Send3();
             // RestartGame();
-            gameOverManager.SetGameOver();
+            // gameOverManager.SetGameOver();
+            Die();
         }
         if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
         {
@@ -217,7 +241,8 @@ public class PlayerController_L1 : MonoBehaviour
             Send2(false);
             Send3();
             // RestartGame();
-            gameOverManager.SetGameOver();
+            // gameOverManager.SetGameOver();
+            Die();
         }
         else if(target.tag == "SetPlatform0")
         {
@@ -232,7 +257,8 @@ public class PlayerController_L1 : MonoBehaviour
             Send(target.gameObject.tag);
             Send2(false);
             Send3();
-            gameOverManager.SetGameOver();
+            // gameOverManager.SetGameOver();
+            Die();
         }
         else if(target.tag == "LevelCompleted")
         {
@@ -248,5 +274,14 @@ public class PlayerController_L1 : MonoBehaviour
             vbd.canMove = false;
             Send4(target.gameObject.tag.ToString());
         }
+    }
+
+    private void Die(){
+        rb.bodyType = RigidbodyType2D.Static;
+        anim.SetTrigger("death");
+    }
+
+    private void callGameOver(){
+        gameOverManager.SetGameOver();
     }
 }
