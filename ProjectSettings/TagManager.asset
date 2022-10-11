@@ -23,6 +23,9 @@ TagManager:
   - Platform_2
   - SetPlatform2
   - UpDownPlatform
+  - SetPlatform0End
+  - SetPlatform1End
+  - SetPlatform2End
   layers:
   - Default
   - TransparentFX

@@ -35,6 +35,18 @@ public class PlayerController_L1 : MonoBehaviour
     private bool _playerStarted = true;
     //private bool _playerCompletedLevel = false;
     
+    private string _playerStartTime;
+    private string _playerEndTime;
+
+    private string _playerObstacleStartTime;
+    private string _playerObstacleEndTime;
+    private string _whichObstaclePassed;
+    
+    private void Awake()
+    {
+        _playerStartTime = DateTime.Now.ToString("h:mm:ss");
+    }
+
     // Send analytics for which obstacle player dies at
     public void Send(string obstacleAtWhichKilled)
     {
@@ -149,6 +161,63 @@ public class PlayerController_L1 : MonoBehaviour
             }
         }
     }
+
+    // Send analytics for successful completion time taken
+    public void Send5(string playerStartTime, string playerEndTime)
+    {
+        StartCoroutine(Upload5(playerStartTime, playerEndTime));
+    }
+
+    // Upload analytics for successful completion time taken
+    private IEnumerator Upload5(string playerStartTime, string playerEndTime)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1980084168", playerStartTime); 
+        form.AddField("entry.14219989", playerEndTime); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLScqHMpDoWp_Dko8FX63ZZC3mvFOKhc0Q_LoHk4mKN7Uyy7qTg/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    // Upload analytics for time taken at dynamic bridges
+    public void Send6(string playerObstacleStartTime, string playerObstacleEndTime, string whichObstaclePassed)
+    {
+        StartCoroutine(Upload6(playerObstacleStartTime, playerObstacleEndTime, whichObstaclePassed));
+    }
+
+    // Upload analytics for time taken at dynamic bridges
+    private IEnumerator Upload6(string playerObstacleStartTime, string playerObstacleEndTime, string whichObstaclePassed)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1889763671", playerObstacleStartTime); 
+        form.AddField("entry.1329460763", playerObstacleEndTime); 
+        form.AddField("entry.605989258", whichObstaclePassed); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSeUOUyRCnKKFf5VjsHPLuDckOEE88x4Dl2Fv6s5joUnzpb3Yw/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -246,15 +315,36 @@ public class PlayerController_L1 : MonoBehaviour
         }
         else if(target.tag == "SetPlatform0")
         {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 0;
         }
         else if(target.tag == "SetPlatform1")
         {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 1;
         }
-        else if(target.tag == "UpDownPlatform")
+        else if(target.tag == "UpDownPlatform") // vertical bridge
         {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 2;
+        }
+        else if(target.tag == "SetPlatform0End")
+        {
+            _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
+            _whichObstaclePassed = "Bridge0";
+            Send6(_playerObstacleStartTime,_playerObstacleEndTime,_whichObstaclePassed);
+        }
+        else if(target.tag == "SetPlatform1End")
+        {
+            _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
+            _whichObstaclePassed = "Bridge1";
+            Send6(_playerObstacleStartTime,_playerObstacleEndTime,_whichObstaclePassed);
+        }
+        else if(target.tag == "SetPlatform2End")
+        {
+            _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
+            _whichObstaclePassed = "Bridge2";
+            Send6(_playerObstacleStartTime,_playerObstacleEndTime,_whichObstaclePassed);
         }
         else if(target.tag == "VerticalBridgeDown" || target.tag == "VerticalBridgeUp" || target.tag == "VerticalBridgeSpike")
         {
@@ -266,6 +356,8 @@ public class PlayerController_L1 : MonoBehaviour
         }
         else if(target.tag == "LevelCompleted")
         {
+            _playerEndTime = DateTime.Now.ToString("h:mm:ss");
+            Send5(_playerStartTime,_playerEndTime);
             //Send(target.gameObject.tag);
             Send2(true);
             Send3();
