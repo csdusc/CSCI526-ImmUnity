@@ -252,6 +252,10 @@ public class PlayerController_L1 : MonoBehaviour
         {
             currentPlatform = 1;
         }
+        else if(target.tag == "UpDownPlatform")
+        {
+            currentPlatform = 2;
+        }
         else if(target.tag == "VerticalBridgeDown" || target.tag == "VerticalBridgeUp" || target.tag == "VerticalBridgeSpike")
         {
             Send(target.gameObject.tag);
