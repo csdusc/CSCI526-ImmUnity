@@ -10,6 +10,9 @@ public class Platform2_Script : MonoBehaviour
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
     public CameraShake cameraShake;
+    public bool textFieldEnabled2 = false;
+    public CoinScore cs;
+    public string textFieldText2 = "Insufficient coins to drop bridge";
 
     void Awake()
     {
@@ -23,6 +26,16 @@ public class Platform2_Script : MonoBehaviour
         canMove = true;
     }
 
+
+    void OnGUI() 
+	{
+         if (textFieldEnabled2) 
+	  {
+             textFieldText2 = GUI.TextField(new Rect(500, 180, 196, 22), textFieldText2);
+         }
+	}
+
+    
     // Update is called once per frame
     void Update()
     {
@@ -32,10 +45,12 @@ public class Platform2_Script : MonoBehaviour
         {
             if(!CoinCollection.canDropLastBridge)
             {
+                textFieldEnabled2 = true;
                 StartCoroutine(cameraShake.Shake());
             }
             else
             {
+                textFieldEnabled2 = false;	
                 DropPlatform();
             }
         }

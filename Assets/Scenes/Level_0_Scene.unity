@@ -749,6 +749,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 917a7f6a256bb4153a48c17e12b36eff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textFieldEnabledcoins: 0
+  textFieldTextcoins: Good Job on collecting all coins!
+  plat_scr: {fileID: 647064673}
 --- !u!114 &95194727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1919,6 +1922,9 @@ MonoBehaviour:
   playerController: {fileID: 358945842}
   gameOverManager: {fileID: 1600651992}
   cameraShake: {fileID: 1660609447}
+  textFieldEnabled2: 0
+  cs: {fileID: 95194726}
+  textFieldText2: Insufficient coins to drop bridge
 --- !u!50 &647064674
 Rigidbody2D:
   serializedVersion: 4
@@ -4314,6 +4320,7 @@ MonoBehaviour:
   playerController: {fileID: 358945842}
   gameOverManager: {fileID: 1600651992}
   cameraShake: {fileID: 1660609447}
+  pla0: {fileID: 1492927307}
 --- !u!1 &1181094859
 GameObject:
   m_ObjectHideFlags: 0
@@ -5565,6 +5572,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 358945842}
   gameOverManager: {fileID: 1600651992}
+  textFieldEnabled: 0
+  textFieldText: Good Job, Now Try Dynamic Bridge Ahead
 --- !u!50 &1492927308
 Rigidbody2D:
   serializedVersion: 4

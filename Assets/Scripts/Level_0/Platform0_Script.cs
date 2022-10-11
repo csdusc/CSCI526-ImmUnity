@@ -9,6 +9,8 @@ public class Platform0_Script : MonoBehaviour
     private Rigidbody2D body;
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
+    public bool textFieldEnabled = false;
+    public string textFieldText = "Good Job, Now Try Dynamic Bridge Ahead";
 
     void Awake()
     {
@@ -56,6 +58,15 @@ public class Platform0_Script : MonoBehaviour
         }
     }
 
+     void OnGUI() 
+	{
+         if (textFieldEnabled) 
+	  {
+             textFieldText = GUI.TextField(new Rect(280, 100, 255, 25), textFieldText);
+         }
+	}
+
+
     void OnCollisionEnter2D(Collision2D target)
     {
         if(target.gameObject.tag == "Water")
@@ -70,6 +81,7 @@ public class Platform0_Script : MonoBehaviour
 
         if(target.gameObject.tag == "Hinge")
         {
+            textFieldEnabled = true;
             StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
