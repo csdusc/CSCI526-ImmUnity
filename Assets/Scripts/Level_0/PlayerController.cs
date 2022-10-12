@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 3.5f;
+        speed = 4f;
         jump = 310;
         currentPlatform = -1f;
 

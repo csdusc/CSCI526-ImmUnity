@@ -31,7 +31,7 @@ public class Platform2_Script : MonoBehaviour
 	{
          if (textFieldEnabled2) 
 	  {
-             textFieldText2 = GUI.TextField(new Rect(500, 180, 196, 22), textFieldText2);
+             textFieldText2 = GUI.TextField(new Rect(500, 180, 195, 23), textFieldText2);
          }
 	}
 

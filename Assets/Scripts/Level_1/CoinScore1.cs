@@ -3,26 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CoinScore : MonoBehaviour
+public class CoinScore1 : MonoBehaviour
 {
     TextMeshProUGUI counterText;
     public bool textFieldEnabledcoins = false;
-    public string textFieldTextcoins = "Good Job on collecting required coins!";
-    public Platform2_Script plat_scr;
+    // public string textFieldTextcoins = "Good Job on collecting required coins!";
+    // public Platform2_Script plat_scr;
     // Start is called before the first frame update
     void Start()
     {
         counterText = GetComponent<TextMeshProUGUI>();   
     }
-
-   void OnGUI() 
-	{
-         if (textFieldEnabledcoins) 
-	  {
-             textFieldTextcoins = GUI.TextField(new Rect(480, 120, 232, 27), textFieldTextcoins);
-         }
-	}
-
 
     // Update is called once per frame
     void Update()
@@ -32,19 +23,7 @@ public class CoinScore : MonoBehaviour
             counterText.text = CoinCollection.totalCoins.ToString();
             if(CoinCollection.totalCoins <= 3 )
             {
-
                 counterText.text = CoinCollection.totalCoins.ToString();
-
-                  if (CoinCollection.totalCoins == 3)
-                  {
-                   textFieldEnabledcoins=true;
-                   if (plat_scr.textFieldEnabled2==true)
-                   {
-                   	plat_scr.textFieldEnabled2=false;
-                   }
-                   
-              
-                  }
             }
             else
             {
