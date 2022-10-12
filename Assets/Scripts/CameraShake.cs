@@ -13,7 +13,7 @@ public class CameraShake : MonoBehaviour
     private float temp = 0.5f;
 	
 	// Amplitude of the shake. A larger value shakes the camera harder.
-	private float shakeAmount = 0.15f;
+	private float shakeAmount = 0.05f;
 	private float decreaseFactor = 1f;
 	
 	Vector3 originalPos;
@@ -26,6 +26,10 @@ public class CameraShake : MonoBehaviour
             originalPos = camTransform.localPosition;
 		}
 	}
+
+	private void Update(){
+        originalPos = transform.localPosition;
+    }
 	
 	void OnEnable()
 	{
