@@ -10,12 +10,15 @@ public class CoinCollection : MonoBehaviour
     public static bool canDropLastBridge = false;
 
     public ColorChangeScript lastBridgeMarkColor;
+    public CoinBarScript coinBar;
 
     void Awake()
     {
         //Make Collider2D as trigger 
         GetComponent<Collider2D>().isTrigger = true;
         canDropLastBridge = false;
+
+        coinBar.Init();
     }
 
     void Update() 
@@ -31,6 +34,7 @@ public class CoinCollection : MonoBehaviour
         {
             //Add coin to counter
             totalCoins++;
+            coinBar.AddCoins(1);
             
             if(totalCoins == totalScore)
             {
