@@ -14,14 +14,14 @@ public class PlayerController_L1 : MonoBehaviour
     public float jump;
     public float move;
     public float currentPlatform;
+    private bool isJumping;
+
     public Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sprite;
-    private bool isJumping; //added code
-
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
-
+    private Health playerHealth;
     public VerticalBridgeUp vbu;
     public VerticalBridgeDown vbd;
 
@@ -159,6 +159,7 @@ public class PlayerController_L1 : MonoBehaviour
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        playerHealth = GetComponent<Health>();
     }
 
     void RestartGame()
@@ -177,30 +178,26 @@ public class PlayerController_L1 : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && !isJumping)
         {
-            // //added code
-            // if( isGrounded == true){
-            //     rb.AddForce(new Vector2(rb.velocity.x, jump));
-            // }
-            // isGrounded = true;
             rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
             isJumping = true;
-
-
         }
 
         UpdateAnimation();
     }
 
     private void UpdateAnimation(){
-        if(move > 0f){
+        if(move > 0f)
+        {
             anim.SetBool("running", true);
             sprite.flipX = false;
         }
-        else if(move < 0f){
+        else if(move < 0f)
+        {
             anim.SetBool("running", true);
             sprite.flipX = true;
         }
-        else{
+        else
+        {
             anim.SetBool("running", false);
         }
     }
@@ -223,8 +220,7 @@ public class PlayerController_L1 : MonoBehaviour
             }
             Send2(false);
             Send3();
-            // RestartGame();
-            // gameOverManager.SetGameOver();
+            
             Die();
         }
         if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
@@ -242,7 +238,7 @@ public class PlayerController_L1 : MonoBehaviour
             Send3();
             // RestartGame();
             // gameOverManager.SetGameOver();
-            Die();
+            triggerDie();
         }
         else if(target.tag == "SetPlatform0")
         {
@@ -278,15 +274,36 @@ public class PlayerController_L1 : MonoBehaviour
             vbd.canMove = false;
             Send4(target.gameObject.tag.ToString());
         }
+        else if(target.gameObject.tag == "Life_Powerup")
+        {
+            playerHealth.AddLife(1);
+            Destroy(target.gameObject);
+        }
     }
 
-    private void Die(){
+    private void Die()
+    {
+        playerHealth.TakeDamage(1);
+
+        if (playerHealth.currenthealth <= 0)
+        {
+            triggerDie();
+        }
+        else
+        {
+            anim.SetTrigger("hurt");
+        }
+    }
+
+    private void triggerDie()
+    {
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
-        Invoke("callGameOver", 1f);
+        Invoke("callGameOver", 1f); 
     }
 
-    private void callGameOver(){
+    private void callGameOver()
+    {
         gameOverManager.SetGameOver();
     }
 }

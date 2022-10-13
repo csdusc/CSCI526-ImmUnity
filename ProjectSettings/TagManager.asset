@@ -23,6 +23,7 @@ TagManager:
   - Platform_2
   - SetPlatform2
   - UpDownPlatform
+  - Life_Powerup
   layers:
   - Default
   - TransparentFX
