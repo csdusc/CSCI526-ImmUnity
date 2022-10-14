@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     private bool isJumping; //added code
     private Health playerHealth;
+    private bool isShield;
+    public GameObject playerShield;
 
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
@@ -124,6 +126,7 @@ public class PlayerController : MonoBehaviour
         speed = 4f;
         jump = 310;
         currentPlatform = -1f;
+        isShield = false;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -182,6 +185,11 @@ public class PlayerController : MonoBehaviour
             }
             else if (target.gameObject.tag == "Obstacle")
             {
+                if(isShield)
+                {
+                    Destroy(target.gameObject);
+                }
+
                 Send(target.gameObject.name);
             }
             else
@@ -209,7 +217,7 @@ public class PlayerController : MonoBehaviour
             Send3();
             // RestartGame();
             // gameOverManager.SetGameOver();
-            Die();
+            triggerDie();
         }
         else if(target.tag == "SetPlatform0")
         {
@@ -236,10 +244,27 @@ public class PlayerController : MonoBehaviour
             playerHealth.AddLife(1);
             Destroy(target.gameObject);
         }
+        else if (target.gameObject.tag == "Shield_Powerup")
+        {
+            Destroy(target.gameObject);
+            isShield = true;
+            playerShield.SetActive(true);
+            StartCoroutine(ResetShieldPowerup());
+        }
+    }
+
+    private IEnumerator ResetShieldPowerup()
+    {
+        yield return new WaitForSeconds(5);
+        isShield = false;
+        playerShield.SetActive(false);
     }
 
     private void Die()
     {
+        if(isShield)
+            return;
+
         playerHealth.TakeDamage(1);
 
         if (playerHealth.currenthealth <= 0)
