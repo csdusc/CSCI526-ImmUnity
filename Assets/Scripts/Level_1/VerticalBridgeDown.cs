@@ -5,8 +5,8 @@ using UnityEngine;
 public class VerticalBridgeDown : MonoBehaviour
 {
     // public float min_x_left = 0.5f, max_x_right = 4.0f, speed = 500f, scaleRate = 0.03f;
-    public float min_x_left = -3.5f, max_x_right = -1.5f, speed = 5f, scaleRate = 1f;
-    private float currSpeed = 5f;
+    public float min_x_left = -3.5f, max_x_right = -1.5f, speed = 3f, scaleRate = 1f;
+    private float currSpeed = 3f;
     public bool canMove;
     private Rigidbody2D body;
 
@@ -51,6 +51,25 @@ public class VerticalBridgeDown : MonoBehaviour
                 pos.x , 
                 pos.y + (scaleRate * currSpeed * Time.deltaTime), 
                 pos.z);
+        }else{
+            // Vector3 newPosition = new Vector3(transform.position.x, min_x_left, transform.position.z);
+            // transform.position = newPosition;
+            StartCoroutine(ScaleDownAnimation(0.5f));
+        }
+    }
+
+    IEnumerator ScaleDownAnimation(float time)
+    {
+        float i = 0;
+        float rate = 1 / time;
+
+        Vector3 fromScale = transform.position;
+        Vector3 toScale = new Vector3(transform.position.x, min_x_left + 1, transform.position.z);
+        while (i<1)
+        {
+            i += Time.deltaTime * rate;
+            transform.position = Vector3.Lerp(fromScale, toScale, i);
+            yield return 0;
         }
     }
 }

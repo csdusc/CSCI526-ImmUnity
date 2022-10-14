@@ -101,39 +101,5 @@ public class StickHero : MonoBehaviour
         }
     }
 
-    // void OnCollisionEnter2D(Collision2D target)
-    // {
-    //     // if(target.gameObject.tag == "Water")
-    //     // {
-    //     //     playerController.Send("Bridge1");
-    //     //     playerController.Send2(false);
-    //     //     playerController.Send3();
-    //     //     // RestartGame();
-    //     //     gameOverManager.SetGameOver();
-    //     // }
-
-    //     if(target.gameObject.tag == "Square")
-    //     {
-    //         // StartCoroutine(ScaleDownAnimation(0.5f));
-    //         body.gravityScale = 1f;
-    //     }
-    // }
-
-    // IEnumerator ScaleDownAnimation(float time)
-    // {
-    //     float i = 0;
-    //     float rate = 1 / time;
-
-    //     Vector3 fromScale = transform.localScale;
-    //     Vector3 toScale = new Vector3(max_x_right, fromScale.y, fromScale.z);
-    //     while (i<1)
-    //     {
-    //         i += Time.deltaTime * rate;
-    //         transform.localScale = Vector3.Lerp(fromScale, toScale, i);
-    //         yield return 0;
-    //     }
-
-    //     body.isKinematic = false;
-    //     body.constraints = RigidbodyConstraints2D.FreezePosition;
-    // }
+   
 }

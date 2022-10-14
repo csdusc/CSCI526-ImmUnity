@@ -18,12 +18,15 @@ public class PlayerController_L1 : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     private bool isJumping; //added code
+    private bool isShield; //added code
 
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
 
     public VerticalBridgeUp vbu;
     public VerticalBridgeDown vbd;
+
+    public GameObject playershield;
 
     // For Analytics
  
@@ -215,6 +218,9 @@ public class PlayerController_L1 : MonoBehaviour
             }
             else if (target.gameObject.tag == "Obstacle")
             {
+                if(isShield){
+                     Destroy(target.gameObject);
+                }
                 Send(target.gameObject.name);
             }
             else
@@ -231,6 +237,23 @@ public class PlayerController_L1 : MonoBehaviour
         {
             isJumping = false;
         }
+        if(target.gameObject.tag == "ShieldPowerUp"){
+            // Debug.Log("ShieldUp");
+            Destroy(target.gameObject);
+            isShield = true;
+            playershield.SetActive(true);
+            // if(target.gameObject.tag == "Obstacle"){
+            //     Destroy(target.gameObject);
+            // }
+            StartCoroutine(ResetPower());
+        }
+
+    }
+
+    private IEnumerator ResetPower(){
+        yield return new WaitForSeconds(5);
+        isShield = false;
+        playershield.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D target)
@@ -281,9 +304,14 @@ public class PlayerController_L1 : MonoBehaviour
     }
 
     private void Die(){
-        rb.bodyType = RigidbodyType2D.Static;
-        anim.SetTrigger("death");
-        Invoke("callGameOver", 1f);
+        if(!isShield){
+            rb.bodyType = RigidbodyType2D.Static;
+            anim.SetTrigger("death");
+            Invoke("callGameOver", 1f);
+        }else{
+            Debug.Log("Do nothings");
+        }
+
     }
 
     private void callGameOver(){
