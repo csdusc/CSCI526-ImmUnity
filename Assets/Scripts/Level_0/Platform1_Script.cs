@@ -11,6 +11,8 @@ public class Platform1_Script : MonoBehaviour
     public GameOver_Manager gameOverManager;
     public CameraShake cameraShake;
    public Platform0_Script pla0;
+    public GameObject Panel2;
+   
 
     void Awake()
     {
@@ -31,7 +33,7 @@ public class Platform1_Script : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
         {
-            pla0.textFieldEnabled=false;
+            Panel2.SetActive(false);
             DropPlatform();
             
         }

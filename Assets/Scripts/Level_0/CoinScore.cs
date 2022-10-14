@@ -9,6 +9,8 @@ public class CoinScore : MonoBehaviour
     public bool textFieldEnabledcoins = false;
     public string textFieldTextcoins = "Good Job on collecting required coins!";
     public Platform2_Script plat_scr;
+    public GameObject Panel_coins_all;
+    public GameObject Insuff_coins_panel;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +39,19 @@ public class CoinScore : MonoBehaviour
 
                   if (CoinCollection.totalCoins == 3)
                   {
-                   textFieldEnabledcoins=true;
-                   if (plat_scr.textFieldEnabled2==true)
-                   {
-                   	plat_scr.textFieldEnabled2=false;
-                   }
+                      
+                      if (Panel_coins_all.activeInHierarchy == true)
+
+				{
+                           Panel_coins_all.SetActive(false);
+				}
+				else
+
+			{	    
+                            Insuff_coins_panel.SetActive(false);
+                            Panel_coins_all.SetActive(true);
+				    
+			}
                    
               
                   }

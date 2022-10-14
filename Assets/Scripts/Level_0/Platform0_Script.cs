@@ -11,6 +11,8 @@ public class Platform0_Script : MonoBehaviour
     public GameOver_Manager gameOverManager;
     public bool textFieldEnabled = false;
     public string textFieldText = "Good Job, Now Try Dynamic Bridge Ahead";
+    public GameObject Panel2;
+    public GameObject DropBridgeText;
 
     void Awake()
     {
@@ -81,7 +83,11 @@ public class Platform0_Script : MonoBehaviour
 
         if(target.gameObject.tag == "Hinge")
         {
-            textFieldEnabled = true;
+		Destroy(DropBridgeText);
+            if (Panel2 != null)
+		{
+                 Panel2.SetActive(true);
+		}
             StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
