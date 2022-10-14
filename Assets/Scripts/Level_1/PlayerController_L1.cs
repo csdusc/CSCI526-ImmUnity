@@ -15,6 +15,7 @@ public class PlayerController_L1 : MonoBehaviour
     public float move;
     public float currentPlatform;
     private bool isJumping;
+    private bool isShield;
 
     public Rigidbody2D rb;
     private Animator anim;
@@ -24,6 +25,7 @@ public class PlayerController_L1 : MonoBehaviour
     private Health playerHealth;
     public VerticalBridgeUp vbu;
     public VerticalBridgeDown vbd;
+    public GameObject playerShield;
 
     // For Analytics
  
@@ -156,6 +158,7 @@ public class PlayerController_L1 : MonoBehaviour
         speed = 4f;
         jump = 310;
         currentPlatform = -1f;
+        isShield = false;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -212,6 +215,11 @@ public class PlayerController_L1 : MonoBehaviour
             }
             else if (target.gameObject.tag == "Obstacle")
             {
+                if(isShield)
+                {
+                    Destroy(target.gameObject);
+                }
+                
                 Send(target.gameObject.name);
             }
             else
@@ -279,10 +287,27 @@ public class PlayerController_L1 : MonoBehaviour
             playerHealth.AddLife(1);
             Destroy(target.gameObject);
         }
+        else if (target.gameObject.tag == "Shield_Powerup")
+        {
+            Destroy(target.gameObject);
+            isShield = true;
+            playerShield.SetActive(true);
+            StartCoroutine(ResetShieldPowerup());
+        }
+    }
+
+    private IEnumerator ResetShieldPowerup()
+    {
+        yield return new WaitForSeconds(5);
+        isShield = false;
+        playerShield.SetActive(false);
     }
 
     private void Die()
     {
+        if(isShield)
+            return;
+        
         playerHealth.TakeDamage(1);
 
         if (playerHealth.currenthealth <= 0)
