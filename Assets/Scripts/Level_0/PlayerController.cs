@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     private bool isJumping; //added code
+    private Health playerHealth;
 
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
@@ -126,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+        playerHealth = GetComponent<Health>();
     }
 
     void RestartGame()
@@ -229,15 +231,36 @@ public class PlayerController : MonoBehaviour
             // RestartGame();
             gameOverManager.SetLevelComplete();
         }
+        else if(target.gameObject.tag == "Life_Powerup")
+        {
+            playerHealth.AddLife(1);
+            Destroy(target.gameObject);
+        }
     }
 
-    private void Die(){
+    private void Die()
+    {
+        playerHealth.TakeDamage(1);
+
+        if (playerHealth.currenthealth <= 0)
+        {
+            triggerDie();
+        }
+        else
+        {
+            anim.SetTrigger("hurt");
+        }
+    }
+
+    private void triggerDie()
+    {
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
-        Invoke("callGameOver", 1f);
+        Invoke("callGameOver", 1f); 
     }
 
-    private void callGameOver(){
+    private void callGameOver()
+    {
         gameOverManager.SetGameOver();
     }
 }
