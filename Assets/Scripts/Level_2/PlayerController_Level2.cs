@@ -23,8 +23,8 @@ public class PlayerController_Level2 : MonoBehaviour
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
     private Health playerHealth;
-    public VerticalBridgeUp vbu;
-    public VerticalBridgeDown vbd;
+    public VerticalBridgeUp[] vbu_arr;
+    public VerticalBridgeDown[] vbd_arr;
     public GameObject playerShield;
 
     // For Analytics
@@ -256,7 +256,7 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             currentPlatform = 1;
         }
-        else if(target.tag == "UpDownPlatform")
+        else if(target.tag == "SetPlatform2")
         {
             currentPlatform = 2;
         }
@@ -265,7 +265,7 @@ public class PlayerController_Level2 : MonoBehaviour
             Send(target.gameObject.tag);
             Send2(false);
             Send3();
-            // gameOverManager.SetGameOver();
+            
             triggerDie();
         }
         else if(target.tag == "LevelCompleted")
@@ -278,8 +278,12 @@ public class PlayerController_Level2 : MonoBehaviour
         }
         else if(target.gameObject.tag == "Freeze_PowerUp") {
             // var player = other.GetComponent<PlayerScript>();
-            vbu.canMove = false;
-            vbd.canMove = false;
+            for (int i = 0; i < vbu_arr.Length; i++)
+            {
+                vbu_arr[i].canMove = false;
+                vbd_arr[i].canMove = false;
+            }
+
             Send4(target.gameObject.tag.ToString());
         }
         else if(target.gameObject.tag == "Life_Powerup")

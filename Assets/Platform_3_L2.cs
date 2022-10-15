@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform_2_L2 : MonoBehaviour
+public class Platform_3_L2 : MonoBehaviour
 {
-    // private float min_x_left = 0.2f, max_x_right = 4.0f, speed = 0f, scaleRate = 0.1f;
-    private float min_x_left = 0.2f, max_x_right = 4.8f, speed = 230f, scaleRate = 0.03f;
-    private float max_right_animation = 5.0f;
+    private float min_x_left = 0.2f, max_x_right = 3.8f, speed = 230f, scaleRate = 0.03f;
+    private float max_right_animation = 4.0f;
     private float platformspeed = 300f;
     private bool canMove;
     private Rigidbody2D body;
@@ -30,7 +29,7 @@ public class Platform_2_L2 : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 2)
         {
             DropPlatform();
         }
@@ -47,6 +46,10 @@ public class Platform_2_L2 : MonoBehaviour
         if(canMove)
         {
             Vector3 pos = transform.localScale;
+
+            // if(pos.x > max_x_right || pos.x < min_x_left){
+            //     speed *= -1f; // change direction
+            // }
 
             if(transform.localScale.x > max_x_right){
                 platformspeed = -speed; // change direction

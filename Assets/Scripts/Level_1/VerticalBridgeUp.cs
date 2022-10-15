@@ -65,7 +65,7 @@ public class VerticalBridgeUp : MonoBehaviour
         float rate = 1 / time;
 
         Vector3 fromScale = transform.position;
-        Vector3 toScale = new Vector3(transform.position.x, 10.5f, transform.position.z);
+        Vector3 toScale = new Vector3(transform.position.x, max_x_right, transform.position.z);
         while (i<1)
         {
             i += Time.deltaTime * rate;
