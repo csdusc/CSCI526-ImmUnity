@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CoinBarScript : MonoBehaviour
 {
     public Slider slider;
-    [SerializeField] private int maxCoins;
+    public int maxCoins;
     private int currentCoins;
 
     public void Init()

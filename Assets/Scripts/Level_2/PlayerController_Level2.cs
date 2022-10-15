@@ -26,6 +26,12 @@ public class PlayerController_Level2 : MonoBehaviour
     public VerticalBridgeUp[] vbu_arr;
     public VerticalBridgeDown[] vbd_arr;
     public GameObject playerShield;
+    public CoinBarScript coinBar;
+    [SerializeField] private AudioSource coinCollectSound;
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource healthSound;
+    [SerializeField] private AudioSource hurtSound;
 
     // For Analytics
  
@@ -163,11 +169,12 @@ public class PlayerController_Level2 : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerHealth = GetComponent<Health>();
+
+        coinBar.Init();
     }
 
     void RestartGame()
     {
-        CoinCollection.totalCoins = 0;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -183,6 +190,7 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
             isJumping = true;
+            jumpSound.Play();
         }
 
         UpdateAnimation();
@@ -207,19 +215,15 @@ public class PlayerController_Level2 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
+        if(target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
         {
-            if (target.gameObject.tag == "Water")
-            {
-                Send("JumpedIntoWater");
-            }
-            else if (target.gameObject.tag == "Obstacle")
+            if (target.gameObject.tag == "Obstacle")
             {
                 if(isShield)
                 {
                     Destroy(target.gameObject);
                 }
-                
+
                 Send(target.gameObject.name);
             }
             else
@@ -231,7 +235,8 @@ public class PlayerController_Level2 : MonoBehaviour
             
             Die();
         }
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
+
+        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1" || target.gameObject.tag == "Platform_2") 
         {
             isJumping = false;
         }
@@ -239,7 +244,14 @@ public class PlayerController_Level2 : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        if(target.tag == "GameOver")
+        
+        if (target.tag == "Coin")
+        {
+            Destroy(target.gameObject);
+            coinBar.AddCoins(1);
+            coinCollectSound.Play();
+        }
+        else if(target.tag == "GameOver")
         {
             //Send(target.gameObject.tag);
             Send2(false);
@@ -289,6 +301,8 @@ public class PlayerController_Level2 : MonoBehaviour
         else if(target.gameObject.tag == "Life_Powerup")
         {
             playerHealth.AddLife(1);
+            healthSound.Play();
+
             Destroy(target.gameObject);
         }
         else if (target.gameObject.tag == "Shield_Powerup")
@@ -296,6 +310,7 @@ public class PlayerController_Level2 : MonoBehaviour
             Destroy(target.gameObject);
             isShield = true;
             playerShield.SetActive(true);
+
             StartCoroutine(ResetShieldPowerup());
         }
     }
@@ -320,6 +335,7 @@ public class PlayerController_Level2 : MonoBehaviour
         }
         else
         {
+            hurtSound.Play();
             anim.SetTrigger("hurt");
         }
     }
@@ -329,6 +345,8 @@ public class PlayerController_Level2 : MonoBehaviour
         playerShield.SetActive(false);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
+        deathSound.Play();
+
         Invoke("callGameOver", 1f); 
     }
 

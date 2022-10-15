@@ -26,6 +26,7 @@ TagManager:
   - Life_Powerup
   - Shield_Powerup
   - SpikyVerticalPencil
+  - Coin
   layers:
   - Default
   - TransparentFX
