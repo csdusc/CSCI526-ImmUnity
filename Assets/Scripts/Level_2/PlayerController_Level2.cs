@@ -156,7 +156,7 @@ public class PlayerController_Level2 : MonoBehaviour
     void Start()
     {
         speed = 4f;
-        jump = 310;
+        jump = 350;
         currentPlatform = -1f;
         isShield = false;
 
@@ -260,13 +260,13 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             currentPlatform = 2;
         }
-        else if(target.tag == "VerticalBridgeDown" || target.tag == "VerticalBridgeUp" || target.tag == "VerticalBridgeSpike")
+        else if(target.tag == "SpikyVerticalPencil")
         {
             Send(target.gameObject.tag);
             Send2(false);
             Send3();
             // gameOverManager.SetGameOver();
-            Die();
+            triggerDie();
         }
         else if(target.tag == "LevelCompleted")
         {

@@ -25,6 +25,7 @@ TagManager:
   - UpDownPlatform
   - Life_Powerup
   - Shield_Powerup
+  - SpikyVerticalPencil
   layers:
   - Default
   - TransparentFX
