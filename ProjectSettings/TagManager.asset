@@ -28,6 +28,17 @@ TagManager:
   - SpikyVerticalPencil
   - Coin
   - Lever
+  - Platform_3_L3
+  - Platform_2_L3
+  - SetPlatform_4
+  - Platform_4_L3
+  - Platform_1_L3
+  - SetPlatform_3
+  - EndPlatform0
+  - EndPlatform1
+  - EndPlatform2
+  - EndPlatform4
+  - EndPlatform3
   layers:
   - Default
   - TransparentFX

@@ -10,7 +10,6 @@ public class GameOver_Manager : MonoBehaviour
     public void SetGameOver()
     {
         gameOverScreen.SetActive(true);
-	  ScoreCanvas.SetActive(false);
         Time.timeScale = 0;
     }
 
@@ -40,7 +39,6 @@ public class GameOver_Manager : MonoBehaviour
     public void SetLevelComplete()
     {
         levelCompleteScreen.SetActive(true);
-        ScoreCanvas.SetActive(false);
         Time.timeScale = 0;
     }
 }
