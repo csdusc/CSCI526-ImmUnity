@@ -12,6 +12,8 @@ public class Platform2_Script : MonoBehaviour
     public CameraShake cameraShake;
     public bool textFieldEnabled2 = false;
     public CoinScore cs;
+    public GameObject Insuff_coins_panel;
+    public GameObject Panel_coins_all;
     public string textFieldText2 = "Insufficient coins to drop bridge";
 
     void Awake()
@@ -41,16 +43,16 @@ public class Platform2_Script : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 2)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 3)
         {
             if(!CoinCollection.canDropLastBridge)
             {
-                textFieldEnabled2 = true;
+                Insuff_coins_panel.SetActive(true);
                 StartCoroutine(cameraShake.Shake());
             }
             else
             {
-                textFieldEnabled2 = false;	
+                Insuff_coins_panel.SetActive(false);		
                 DropPlatform();
             }
         }
@@ -99,6 +101,7 @@ public class Platform2_Script : MonoBehaviour
 
         if(target.gameObject.tag == "Hinge")
         {
+		Panel_coins_all.SetActive(false);
             StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }

@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform0_Script : MonoBehaviour
+public class Platform3_Script : MonoBehaviour
 {
-    private float min_x_left = 0.2f, max_x_right = 4.0f, speed = 0f, scaleRate = 0.1f;
+    private float min_x_left = 0.5f, max_x_right = 4.0f, speed = 200f, scaleRate = 0.03f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
-    public bool textFieldEnabled = false;
-    public string textFieldText = "Good Job, Now Try Dynamic Bridge Ahead";
-    public GameObject Panel2;
-    public GameObject DropBridgeText;
+    public CameraShake cameraShake;
 
     void Awake()
     {
@@ -23,17 +20,18 @@ public class Platform0_Script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        canMove = false;
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // MovePlatform(); // First platform does not move
+        MovePlatform();
 
-        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 0)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 2)
         {
             DropPlatform();
+            
         }
     }
 
@@ -49,8 +47,15 @@ public class Platform0_Script : MonoBehaviour
         {
             Vector3 pos = transform.localScale;
 
-            if(pos.x > max_x_right || pos.x < min_x_left){
-                speed *= -1f; // change direction
+            // if(pos.x > max_x_right || pos.x < min_x_left){
+            //     speed *= -1f; // change direction
+            // }
+
+            if(transform.localScale.x > max_x_right){
+                speed = -200f; // change direction
+            }
+            else if(transform.localScale.x < min_x_left){
+                speed = 200f; // change direction
             }
 
             transform.localScale = new Vector3(
@@ -60,34 +65,19 @@ public class Platform0_Script : MonoBehaviour
         }
     }
 
-     void OnGUI() 
-	{
-         if (textFieldEnabled) 
-	  {
-             textFieldText = GUI.TextField(new Rect(280, 100, 255, 25), textFieldText);
-         }
-	}
-
-
     void OnCollisionEnter2D(Collision2D target)
     {
         if(target.gameObject.tag == "Water")
         {
-            playerController.Send("Bridge1");
+            playerController.Send("Bridge2");
             playerController.Send2(false);
             playerController.Send3();
             // RestartGame();
             gameOverManager.SetGameOver();
-
         }
 
         if(target.gameObject.tag == "Hinge")
         {
-		Destroy(DropBridgeText);
-            if (Panel2 != null)
-		{
-                 Panel2.SetActive(true);
-		}
             StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
@@ -112,6 +102,7 @@ public class Platform0_Script : MonoBehaviour
 
     void RestartGame()
     {
+        //playerController.Send();
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );

@@ -10,15 +10,15 @@ public class bridgeTxtScript : MonoBehaviour
     
 
     // Update is called once per frame
-    // void Update()
-    // {
-    //     // if(Input.GetKeyDown(KeyCode.DownArrow))
-    //     // {
-    //     //     //Time.timeScale = 1;
-    //     //     Destroy(gameObject);
-    //     // }
+     void Update()
+     {
+     if(Input.GetKeyDown(KeyCode.DownArrow))
+    {
+         //Time.timeScale = 1;
+       //Destroy(gameObject);
+     }
 
-    // }
+     }
 
     // public float time=8;
     // IEnumerator Start()

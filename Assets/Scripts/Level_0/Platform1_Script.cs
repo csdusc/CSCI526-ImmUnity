@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Platform1_Script : MonoBehaviour
 {
-    private float min_x_left = 0.5f, max_x_right = 4.0f, speed = 500f, scaleRate = 0.03f;
+    private float min_x_left = 1f, max_x_right = 4.0f, speed = 300f, scaleRate = 0.03f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
     public CameraShake cameraShake;
    public Platform0_Script pla0;
+    public GameObject Panel2;
+   
 
     void Awake()
     {
@@ -31,7 +33,7 @@ public class Platform1_Script : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 1)
         {
-            pla0.textFieldEnabled=false;
+            Panel2.SetActive(false);
             DropPlatform();
             
         }
