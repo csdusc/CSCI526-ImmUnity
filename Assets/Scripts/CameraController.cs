@@ -21,27 +21,18 @@ public class CameraController : MonoBehaviour
 	Vector3 originalPos;
 
     private void Update(){
-        transform.position = new Vector3(player.position.x + 5f, player.position.y + 1.5f, transform.position.z);
+        transform.position = new Vector3(player.position.x + 5f, player.position.y + 1.5f, -10f);
         originalPos = transform.position;
     }
-
-    // void Awake()
-	// {
-	// 	if (camTransform == null)
-	// 	{
-	// 		camTransform = GetComponent(typeof(Transform)) as Transform;
-    //         originalPos = camTransform.localPosition;
-	// 	}
-	// }
 	
 	void OnEnable()
 	{
-		originalPos = transform.localPosition;
+		originalPos = transform.position;
 	}
 
    public IEnumerator Shake(){
         while(temp > 0){
-            transform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+            transform.position = originalPos + Random.insideUnitSphere * shakeAmount;
             temp -= Time.deltaTime * decreaseFactor;
 
             temp -= Time.deltaTime;
@@ -49,6 +40,6 @@ public class CameraController : MonoBehaviour
         }
 
         temp = shakeDuration;
-        transform.localPosition = originalPos;
+        transform.position = originalPos;
     }
 }

@@ -19,6 +19,9 @@ public class PlayerController_Level2 : MonoBehaviour
 
     public Rigidbody2D rb;
     private Animator anim;
+    public GameObject goldenBridge;
+    private bool isGoldenBridgeActivated;
+
     private SpriteRenderer sprite;
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
@@ -27,6 +30,7 @@ public class PlayerController_Level2 : MonoBehaviour
     public VerticalBridgeDown[] vbd_arr;
     public GameObject playerShield;
     public CoinBarScript coinBar;
+    public CameraController cameraController;
     [SerializeField] private AudioSource coinCollectSound;
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private AudioSource deathSound;
@@ -171,6 +175,7 @@ public class PlayerController_Level2 : MonoBehaviour
         playerHealth = GetComponent<Health>();
 
         coinBar.Init();
+        isGoldenBridgeActivated = false;
     }
 
     void RestartGame()
@@ -236,7 +241,7 @@ public class PlayerController_Level2 : MonoBehaviour
             Die();
         }
 
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1" || target.gameObject.tag == "Platform_2") 
+        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1" || target.gameObject.tag == "Platform_2") 
         {
             isJumping = false;
         }
@@ -244,7 +249,6 @@ public class PlayerController_Level2 : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        
         if (target.tag == "Coin")
         {
             Destroy(target.gameObject);
@@ -312,6 +316,41 @@ public class PlayerController_Level2 : MonoBehaviour
             playerShield.SetActive(true);
 
             StartCoroutine(ResetShieldPowerup());
+        }
+        else if (target.tag == "Lever")
+        {
+            if (coinBar.currentCoins >= coinBar.maxCoins)
+            {
+                if(isGoldenBridgeActivated)
+                    return;
+                
+                isGoldenBridgeActivated = true;
+
+                coinCollectSound.Play();
+                SpriteRenderer sr = target.gameObject.GetComponent<SpriteRenderer>(); 
+                sr.flipX = true;
+
+                StartCoroutine(BridgeScaleUpAnimation(1.5f));
+            }
+            else
+            {
+                StartCoroutine(cameraController.Shake());
+            }
+        }
+    }
+
+    IEnumerator BridgeScaleUpAnimation(float time)
+    {
+        float i = 0;
+        float rate = 1 / time;
+
+        Vector3 fromScale = goldenBridge.transform.localScale;
+        Vector3 toScale = new Vector3(4.0f, fromScale.y, fromScale.z);
+        while (i<1)
+        {
+            i += Time.deltaTime * rate;
+            goldenBridge.transform.localScale = Vector3.Lerp(fromScale, toScale, i);
+            yield return 0;
         }
     }
 

@@ -7,7 +7,7 @@ public class CoinBarScript : MonoBehaviour
 {
     public Slider slider;
     public int maxCoins;
-    private int currentCoins;
+    public int currentCoins;
 
     public void Init()
     {

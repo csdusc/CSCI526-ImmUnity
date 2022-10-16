@@ -27,6 +27,7 @@ TagManager:
   - Shield_Powerup
   - SpikyVerticalPencil
   - Coin
+  - Lever
   layers:
   - Default
   - TransparentFX
@@ -61,6 +62,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 117755067
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
