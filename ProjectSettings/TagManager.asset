@@ -25,6 +25,14 @@ TagManager:
   - UpDownPlatform
   - Life_Powerup
   - Shield_Powerup
+  - SpikyVerticalPencil
+  - Platform_1_L3
+  - Platform_2_L3
+  - Platform_3_L3
+  - SetPlatform_3
+  - Platform_4_L3
+  - SetPlatform_4
+  - Disappearing
   layers:
   - Default
   - TransparentFX
