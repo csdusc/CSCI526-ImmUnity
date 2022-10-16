@@ -19,6 +19,9 @@ public class PlayerController_Level3 : MonoBehaviour
 
     public Rigidbody2D rb;
     private Animator anim;
+    public GameObject goldenBridge;
+    private bool isGoldenBridgeActivated;
+
     private SpriteRenderer sprite;
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
@@ -26,6 +29,13 @@ public class PlayerController_Level3 : MonoBehaviour
     public VerticalBridgeUp vbu;
     public VerticalBridgeDown vbd;
     public GameObject playerShield;
+    public CoinBarScript coinBar;
+    public CameraController cameraController;
+    [SerializeField] private AudioSource coinCollectSound;
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource healthSound;
+    [SerializeField] private AudioSource hurtSound;
 
     // For Analytics
  
@@ -163,6 +173,9 @@ public class PlayerController_Level3 : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerHealth = GetComponent<Health>();
+
+        coinBar.Init();
+        isGoldenBridgeActivated = false;
     }
 
     void RestartGame()
@@ -183,6 +196,7 @@ public class PlayerController_Level3 : MonoBehaviour
         {
             rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
             isJumping = true;
+            jumpSound.Play();
         }
 
         UpdateAnimation();
@@ -231,7 +245,7 @@ public class PlayerController_Level3 : MonoBehaviour
             
             Die();
         }
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_1_L3" ||  target.gameObject.tag == "Platform_3_L3" || target.gameObject.tag == "Platform_4_L3") 
+        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_1_L3" ||  target.gameObject.tag == "Platform_3_L3" || target.gameObject.tag == "Platform_4_L3") 
         {
             isJumping = false;
         }
@@ -239,7 +253,13 @@ public class PlayerController_Level3 : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        if(target.tag == "GameOver")
+        if (target.tag == "Coin")
+        {
+            Destroy(target.gameObject);
+            coinBar.AddCoins(1);
+            coinCollectSound.Play();
+        }
+        else if(target.tag == "GameOver")
         {
             //Send(target.gameObject.tag);
             Send2(false);
@@ -293,6 +313,8 @@ public class PlayerController_Level3 : MonoBehaviour
         else if(target.gameObject.tag == "Life_Powerup")
         {
             playerHealth.AddLife(1);
+            healthSound.Play();
+
             Destroy(target.gameObject);
         }
         else if (target.gameObject.tag == "Shield_Powerup")
@@ -301,6 +323,41 @@ public class PlayerController_Level3 : MonoBehaviour
             isShield = true;
             playerShield.SetActive(true);
             StartCoroutine(ResetShieldPowerup());
+        }
+        else if (target.tag == "Lever")
+        {
+            if (coinBar.currentCoins >= coinBar.maxCoins)
+            {
+                if(isGoldenBridgeActivated)
+                    return;
+                
+                isGoldenBridgeActivated = true;
+
+                coinCollectSound.Play();
+                SpriteRenderer sr = target.gameObject.GetComponent<SpriteRenderer>(); 
+                sr.flipX = true;
+
+                StartCoroutine(BridgeScaleUpAnimation(1.5f));
+            }
+            else
+            {
+                StartCoroutine(cameraController.Shake());
+            }
+        }
+    }
+
+    IEnumerator BridgeScaleUpAnimation(float time)
+    {
+        float i = 0;
+        float rate = 1 / time;
+
+        Vector3 fromScale = goldenBridge.transform.localScale;
+        Vector3 toScale = new Vector3(4.0f, fromScale.y, fromScale.z);
+        while (i<1)
+        {
+            i += Time.deltaTime * rate;
+            goldenBridge.transform.localScale = Vector3.Lerp(fromScale, toScale, i);
+            yield return 0;
         }
     }
 
@@ -324,6 +381,7 @@ public class PlayerController_Level3 : MonoBehaviour
         }
         else
         {
+            hurtSound.Play();
             anim.SetTrigger("hurt");
         }
     }
@@ -333,6 +391,8 @@ public class PlayerController_Level3 : MonoBehaviour
         playerShield.SetActive(false);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
+        deathSound.Play();
+
         Invoke("callGameOver", 1f); 
     }
 
