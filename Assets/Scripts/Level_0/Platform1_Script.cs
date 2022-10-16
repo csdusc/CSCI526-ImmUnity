@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platform1_Script : MonoBehaviour
 {
-    private float min_x_left = 0.5f, max_x_right = 4.0f, speed = 500f, scaleRate = 0.03f;
+    private float min_x_left = 1f, max_x_right = 4.0f, speed = 300f, scaleRate = 0.03f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;

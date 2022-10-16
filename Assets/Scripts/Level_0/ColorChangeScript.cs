@@ -11,6 +11,6 @@ public class ColorChangeScript : MonoBehaviour
     }
 
     public void ChangeColor(){
-        spriteRendererToChangeColor.color = new Color (0.1f, 0.8f, 0.2f, 1);
+        // spriteRendererToChangeColor.color = new Color (0.1f, 0.8f, 0.2f, 1);
     }
 }

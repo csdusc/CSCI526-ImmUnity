@@ -43,7 +43,7 @@ public class Platform2_Script : MonoBehaviour
     {
         MovePlatform();
 
-        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 2)
+        if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 3)
         {
             if(!CoinCollection.canDropLastBridge)
             {

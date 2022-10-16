@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         speed = 4f;
-        jump = 310;
+        jump = 350;
         currentPlatform = -1f;
         isShield = false;
 
