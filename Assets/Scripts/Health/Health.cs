@@ -14,8 +14,11 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float _damage)
     {
+	  
         currenthealth = Mathf.Clamp(currenthealth - _damage, 0, startingHealth);
     }
+   
+    
 
     public void AddLife(float _life)
     {
