@@ -33,6 +33,13 @@ public class GameOver_Manager : MonoBehaviour
     {
         CoinCollection.totalCoins = 0;
         Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+    }
+
+    public void startLevel3()
+    {
+        CoinCollection.totalCoins = 0;
+        Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
