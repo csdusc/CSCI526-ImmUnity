@@ -26,13 +26,17 @@ public class PlayerController : MonoBehaviour
     public GameOver_Manager levelCompleteScreen;
 
     // For Analytics
-    //[SerializeField] private string URL; // URL for ObstacleDeathTrackingAnalytics
-    //[SerializeField] private string URL2; // URL for LevelCompletionAnalytics
+    public CoinBarScript coinBar;
+
     private long _sessionID;
     private string _obstacleAtWhichKilled;
     
     private bool _playerStarted = true;
     //private bool _playerCompletedLevel = false;
+    
+    private string _playerObstacleStartTime;
+    private string _playerObstacleEndTime;
+    private string _whichObstaclePassed;
     
     // Send analytics for which obstacle player dies at
     public void Send(string obstacleAtWhichKilled) 
@@ -94,19 +98,109 @@ public class PlayerController : MonoBehaviour
     }
     
     // Send analytics for coins collected
-    public void Send3()
+    public void Send3(bool didPlayerCompleteLevel)
     {
-        StartCoroutine(Upload3(CoinCollection.totalCoins.ToString()));
+        //StartCoroutine(Upload3(CoinCollection.totalCoins.ToString()));
+        //StartCoroutine(Upload3(coinBar.totalCoinsCollected.ToString(), didPlayerCompleteLevel.ToString()));
+        StartCoroutine(Upload3("0", didPlayerCompleteLevel.ToString()));
     }
 
     // Upload analytics for coins collected
-    private IEnumerator Upload3(string coinsCollected)
+    private IEnumerator Upload3(string coinsCollected, string didPlayerCompleteLevel)
     {
         WWWForm form = new WWWForm();
         form.AddField("entry.1343059877", "0"); 
         form.AddField("entry.1440472328", coinsCollected); 
+        form.AddField("entry.1758890323", didPlayerCompleteLevel); 
+        
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSeSiwt_tfJAKJMgfO3_XUM9Mcy4qAY0k1GZ9EZxFniEgQ65Sg/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    // Send analytics for powerup collected
+    public void Send4(string powerUp)
+    {
+        StartCoroutine(Upload4(powerUp));
+    }
+    
+    // Upload analytics for powerup collected
+    private IEnumerator Upload4(string powerUpCollected)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1967777262", "0"); 
+        form.AddField("entry.977184578", powerUpCollected); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLScKKVkFtl5NUh2yYz2aLK0dlbEalRYyNjtUHoFZ0Un-aHLc-g/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+    
+    // Send analytics for how much health player finishes level with
+    public void Send5()
+    {
+        StartCoroutine(Upload5(playerHealth.currenthealth.ToString()));
+    }
+
+    // Upload analytics for how much health player finishes level with
+    private IEnumerator Upload5(string healthLeft)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.620600592", "0"); 
+        form.AddField("entry.642392757", healthLeft); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSfn9OCUbcktHgrI__y7ZQ_S5gdJlIJFcKgPkCsOSzEWeiNAQA/formResponse", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
+            }
+        }
+    }
+
+    // Send analytics for time taken at dynamic bridges
+    public void Send6(string playerObstacleStartTime, string playerObstacleEndTime, string whichObstaclePassed)
+    {
+        StartCoroutine(Upload6(playerObstacleStartTime, playerObstacleEndTime, whichObstaclePassed));
+    }
+
+    // Upload analytics for time taken at dynamic bridges
+    private IEnumerator Upload6(string playerObstacleStartTime, string playerObstacleEndTime, string whichObstaclePassed)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("entry.1889763671", playerObstacleStartTime); 
+        form.AddField("entry.1329460763", playerObstacleEndTime); 
+        form.AddField("entry.605989258", whichObstaclePassed); 
+        form.AddField("entry.1055560394", "0"); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post("https://docs.google.com/forms/u/1/d/e/1FAIpQLSeUOUyRCnKKFf5VjsHPLuDckOEE88x4Dl2Fv6s5joUnzpb3Yw/formResponse", form))
         {
             yield return www.SendWebRequest();
 
@@ -181,6 +275,7 @@ public class PlayerController : MonoBehaviour
         {
             if (target.gameObject.tag == "Water")
             {
+                // Send where player loses health
                 Send("JumpedIntoWater");
             }
             else if (target.gameObject.tag == "Obstacle")
@@ -190,14 +285,17 @@ public class PlayerController : MonoBehaviour
                     Destroy(target.gameObject);
                 }
 
+                // Send where player loses health
                 Send(target.gameObject.name);
+
             }
             else
             {
+                // Send where player loses health
                 Send(target.gameObject.tag);
             }
-            Send2(false);
-            Send3();
+            //Send2(false);
+            //Send3();
             // RestartGame();
             // gameOverManager.SetGameOver();
             Die();
@@ -211,10 +309,16 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D target)
     {
         if(target.tag == "GameOver")
-        {
-            //Send(target.gameObject.tag);
+        {   
+            // Send where player loses health
+            Send("JumpedToDeath");
+
+            //Send player started vs ended
             Send2(false);
-            Send3();
+            
+            // Send coins collected on death
+            //Send3(false);
+
             // RestartGame();
             // gameOverManager.SetGameOver();
             triggerDie();
@@ -225,27 +329,53 @@ public class PlayerController : MonoBehaviour
         }
         else if(target.tag == "SetPlatform1")
         {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 1;
         }
         else if(target.tag == "SetPlatform2")
         {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 2;
+        }
+        else if(target.tag == "EndPlatform1")
+        {
+            _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
+            _whichObstaclePassed = "DynamicBridge1";
+            Send6(_playerObstacleStartTime,_playerObstacleEndTime,_whichObstaclePassed);
+        }
+        else if(target.tag == "EndPlatform2")
+        {
+            _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
+            _whichObstaclePassed = "DynamicBridge2";
+            Send6(_playerObstacleStartTime,_playerObstacleEndTime,_whichObstaclePassed);
         }
         else if(target.tag == "LevelCompleted")
         {
-            //Send(target.gameObject.tag);
+            //Send player started vs ended
             Send2(true);
-            Send3();
+            
+            //Send coins collected analytics
+            Send3(true);
+            
+            // Send player health left when level completed
+            Send5();
+
             // RestartGame();
             gameOverManager.SetLevelComplete();
         }
         else if(target.gameObject.tag == "Life_Powerup")
         {
+            //Send powerup collected
+            Send4("LifePowerup");
+
             playerHealth.AddLife(1);
             Destroy(target.gameObject);
         }
         else if (target.gameObject.tag == "Shield_Powerup")
         {
+            //Send powerup collected
+            Send4("ShieldPowerup");
+
             Destroy(target.gameObject);
             isShield = true;
             playerShield.SetActive(true);
@@ -269,6 +399,9 @@ public class PlayerController : MonoBehaviour
 
         if (playerHealth.currenthealth <= 0)
         {
+            //Send player started vs ended
+            Send2(false);
+            
             triggerDie();
         }
         else
@@ -279,6 +412,9 @@ public class PlayerController : MonoBehaviour
 
     private void triggerDie()
     {
+        // Send coins collected on death
+        Send3(false);
+
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
         Invoke("callGameOver", 1f); 

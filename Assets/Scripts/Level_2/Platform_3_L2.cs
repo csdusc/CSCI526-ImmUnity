@@ -77,9 +77,14 @@ public class Platform_3_L2 : MonoBehaviour
     {
         if(target.gameObject.tag == "GameOver")
         {
+            // Send where player loses health
             playerController.Send("Bridge1");
+            
+            //Send player started vs ended
             playerController.Send2(false);
-            playerController.Send3();
+            
+            //Send coins collected on death
+            playerController.Send3(false);
             // RestartGame();
             gameOverManager.SetGameOver();
         }

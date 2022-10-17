@@ -73,9 +73,14 @@ public class Platform0_Script : MonoBehaviour
     {
         if(target.gameObject.tag == "Water")
         {
+            // Send where player loses health
             playerController.Send("Bridge1");
+            
+            //Send player started vs ended
             playerController.Send2(false);
-            playerController.Send3();
+            
+            //Send coins collected on death
+            playerController.Send3(false);
             // RestartGame();
             gameOverManager.SetGameOver();
 
