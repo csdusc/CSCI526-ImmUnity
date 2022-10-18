@@ -70,6 +70,7 @@ TagManager:
   - Life_Powerup_3
   - Life_Powerup_4
   - SpikeBall
+  - Life_Powerup_5
   layers:
   - Default
   - TransparentFX

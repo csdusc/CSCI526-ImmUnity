@@ -36,6 +36,7 @@ public class PlayerController_Level3 : MonoBehaviour
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource healthSound;
     [SerializeField] private AudioSource hurtSound;
+    [SerializeField] private AudioSource freezePowerupSound;
 
     // For Analytics
     private long _sessionID;
@@ -436,13 +437,17 @@ public class PlayerController_Level3 : MonoBehaviour
             vbu.canMove = false;
             vbd.canMove = false;
             
+            freezePowerupSound.Play();
+
             //Send powerup collected
             Send4("FreezePowerup");
         }
         else if(
             target.gameObject.tag == "Life_Powerup_1" || 
             target.gameObject.tag == "Life_Powerup_2" ||
-            target.gameObject.tag == "Life_Powerup_3"
+            target.gameObject.tag == "Life_Powerup_3" ||
+            target.gameObject.tag == "Life_Powerup_4" ||
+            target.gameObject.tag == "Life_Powerup_5" 
         ){
             //Send powerup collected
             //Send4("LifePowerup");

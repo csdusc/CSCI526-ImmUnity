@@ -36,6 +36,7 @@ public class PlayerController_Level2 : MonoBehaviour
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource healthSound;
     [SerializeField] private AudioSource hurtSound;
+    [SerializeField] private AudioSource freezePowerupSound;
 
     // For Analytics
     private long _sessionID;
@@ -422,6 +423,8 @@ public class PlayerController_Level2 : MonoBehaviour
                 vbd_arr[i].canMove = false;
             }
 
+            freezePowerupSound.Play();
+            
             //Send powerup collected
             Send4("FreezePowerup");
         }
