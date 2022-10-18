@@ -79,7 +79,7 @@ public class Platform3_Script : MonoBehaviour
         if(target.gameObject.tag == "GameOver")
         {
             // Send where player loses health
-            playerController.Send("Bridge1");
+            playerController.Send("Bridge3");
             
             //Send player started vs ended
             playerController.Send2(false);
