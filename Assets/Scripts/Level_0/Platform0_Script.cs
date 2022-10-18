@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Platform0_Script : MonoBehaviour
 {
-    private float min_x_left = 0.2f, max_x_right = 4.0f, speed = 0f, scaleRate = 0.1f;
+    private float min_x_left = 0.2f, max_x_right = 3.85f, speed = 0f, scaleRate = 0.1f;
+    private float max_scale_value = 4.0f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
     public bool textFieldEnabled = false;
     public string textFieldText = "Good Job, Now Try Dynamic Bridge Ahead";
+    public GameObject Panel2;
+    public GameObject DropBridgeText;
 
     void Awake()
     {
@@ -69,20 +72,32 @@ public class Platform0_Script : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water")
+        if(target.gameObject.tag == "Hinge")
         {
+		Destroy(DropBridgeText);
+            if (Panel2 != null)
+		{
+                 Panel2.SetActive(true);
+		}
+            StartCoroutine(ScaleDownAnimation(0.5f));
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if(target.gameObject.tag == "GameOver")
+        {
+            // Send where player loses health
             playerController.Send("Bridge1");
+            
+            //Send player started vs ended
             playerController.Send2(false);
-            playerController.Send3();
+            
+            //Send coins collected on death
+            playerController.Send3(false);
             // RestartGame();
             gameOverManager.SetGameOver();
 
-        }
-
-        if(target.gameObject.tag == "Hinge")
-        {
-            textFieldEnabled = true;
-            StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
 
@@ -92,7 +107,7 @@ public class Platform0_Script : MonoBehaviour
         float rate = 1 / time;
 
         Vector3 fromScale = transform.localScale;
-        Vector3 toScale = new Vector3(max_x_right, fromScale.y, fromScale.z);
+        Vector3 toScale = new Vector3(max_scale_value, fromScale.y, fromScale.z);
         while (i<1)
         {
             i += Time.deltaTime * rate;

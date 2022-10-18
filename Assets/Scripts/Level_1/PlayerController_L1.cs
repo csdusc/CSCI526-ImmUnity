@@ -227,7 +227,7 @@ public class PlayerController_L1 : MonoBehaviour
                 Send(target.gameObject.tag);
             }
             Send2(false);
-            Send3();
+            //Send3();
             
             Die();
         }
@@ -243,7 +243,7 @@ public class PlayerController_L1 : MonoBehaviour
         {
             //Send(target.gameObject.tag);
             Send2(false);
-            Send3();
+            //Send3();
             // RestartGame();
             // gameOverManager.SetGameOver();
             triggerDie();
@@ -264,7 +264,7 @@ public class PlayerController_L1 : MonoBehaviour
         {
             Send(target.gameObject.tag);
             Send2(false);
-            Send3();
+            //Send3();
             // gameOverManager.SetGameOver();
             Die();
         }
@@ -272,7 +272,7 @@ public class PlayerController_L1 : MonoBehaviour
         {
             //Send(target.gameObject.tag);
             Send2(true);
-            Send3();
+            //Send3();
             // RestartGame();
             gameOverManager.SetLevelComplete();
         }

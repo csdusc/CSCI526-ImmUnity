@@ -25,6 +25,52 @@ TagManager:
   - UpDownPlatform
   - Life_Powerup
   - Shield_Powerup
+  - SpikyVerticalPencil
+  - Coin
+  - Lever
+  - Platform_3_L3
+  - Platform_2_L3
+  - SetPlatform_4
+  - Platform_4_L3
+  - Platform_1_L3
+  - SetPlatform_3
+  - EndPlatform0
+  - EndPlatform1
+  - EndPlatform2
+  - EndPlatform4
+  - EndPlatform3
+  - SpikeSet1
+  - SpikeSet2
+  - SpikeSet3
+  - SpikeSet4
+  - SpikeSet5
+  - SpikeSet6
+  - SpikeSet7
+  - SpikeSet8
+  - SpikeSet9
+  - SpikeSet10
+  - SpikeSet11
+  - Enemy1
+  - Enemy2
+  - Enemy3
+  - Enemy4
+  - Enemy5
+  - Enemy6
+  - Enemy7
+  - Enemy8
+  - Enemy9
+  - Enemy10
+  - Saw1
+  - Saw2
+  - Saw3
+  - Saw4
+  - Saw5
+  - Life_Powerup_1
+  - Life_Powerup_2
+  - Life_Powerup_3
+  - Life_Powerup_4
+  - SpikeBall
+  - Life_Powerup_5
   layers:
   - Default
   - TransparentFX
@@ -59,6 +105,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 117755067
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
