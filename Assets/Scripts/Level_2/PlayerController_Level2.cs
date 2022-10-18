@@ -281,30 +281,56 @@ public class PlayerController_Level2 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
-        {
-            if (target.gameObject.tag == "Obstacle")
+        if (
+            target.gameObject.tag == "SpikeSet1" ||
+            target.gameObject.tag == "SpikeSet2" ||
+            target.gameObject.tag == "SpikeSet3" ||
+            target.gameObject.tag == "SpikeSet4" ||
+            target.gameObject.tag == "SpikeSet5" ||
+            target.gameObject.tag == "SpikeSet6" ||
+            target.gameObject.tag == "SpikeSet7" ||
+            target.gameObject.tag == "SpikeSet8" ||
+            target.gameObject.tag == "SpikeSet9" ||
+            target.gameObject.tag == "SpikeSet10" ||
+            target.gameObject.tag == "SpikeSet11"
+        ){
+            isJumping = false;
+            Die();
+        }
+        else if (
+            target.gameObject.tag == "Saw1" ||
+            target.gameObject.tag == "Saw2"
+        ){
+            Die();
+        }
+        else if (
+            target.gameObject.tag == "Enemy1" ||
+            target.gameObject.tag == "Enemy2" ||
+            target.gameObject.tag == "Enemy3" ||
+            target.gameObject.tag == "Enemy4"
+        ){
+            if(isShield)
             {
-                if(isShield)
-                {
-                    Destroy(target.gameObject);
-                }
-                // Send where player loses health
-                Send(target.gameObject.name);
+                Destroy(target.gameObject);
+                // play sound
             }
             else
             {
                 // Send where player loses health
                 Send(target.gameObject.tag);
+                Die();
             }
-            
-            //Send3();
-            
+        }
+        else if (target.gameObject.tag == "Hinge"){
             Die();
         }
-
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1" || target.gameObject.tag == "Platform_2") 
-        {
+        
+        if(
+            target.gameObject.tag == "Floor" || 
+            target.gameObject.tag == "Platform_0" || 
+            target.gameObject.tag == "Platform_1" || 
+            target.gameObject.tag == "Platform_2"
+        ){
             isJumping = false;
         }
     }
@@ -367,7 +393,7 @@ public class PlayerController_Level2 : MonoBehaviour
             
             //Send3();
             
-            triggerDie();
+            Die();
         }
         else if(target.tag == "LevelCompleted")
         {            
@@ -393,10 +419,10 @@ public class PlayerController_Level2 : MonoBehaviour
             //Send powerup collected
             Send4("FreezePowerup");
         }
-        else if(target.gameObject.tag == "Life_Powerup")
+        else if(target.gameObject.tag == "Life_Powerup_1" || target.gameObject.tag == "Life_Powerup_2")
         {
             //Send powerup collected
-            Send4("LifePowerup");
+            Send4("LifePowerup"); // send target.gameObject.tag
 
             playerHealth.AddLife(1);
             healthSound.Play();

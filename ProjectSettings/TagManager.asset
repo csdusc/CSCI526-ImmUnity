@@ -39,6 +39,37 @@ TagManager:
   - EndPlatform2
   - EndPlatform4
   - EndPlatform3
+  - SpikeSet1
+  - SpikeSet2
+  - SpikeSet3
+  - SpikeSet4
+  - SpikeSet5
+  - SpikeSet6
+  - SpikeSet7
+  - SpikeSet8
+  - SpikeSet9
+  - SpikeSet10
+  - SpikeSet11
+  - Enemy1
+  - Enemy2
+  - Enemy3
+  - Enemy4
+  - Enemy5
+  - Enemy6
+  - Enemy7
+  - Enemy8
+  - Enemy9
+  - Enemy10
+  - Saw1
+  - Saw2
+  - Saw3
+  - Saw4
+  - Saw5
+  - Life_Powerup_1
+  - Life_Powerup_2
+  - Life_Powerup_3
+  - Life_Powerup_4
+  - SpikeBall
   layers:
   - Default
   - TransparentFX

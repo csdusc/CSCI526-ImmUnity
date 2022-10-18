@@ -21,12 +21,21 @@ public class PlayerController : MonoBehaviour
     private Health playerHealth;
     private bool isShield;
     public GameObject playerShield;
+    public GameObject goldenBridge;
+    private bool isGoldenBridgeActivated;
 
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
 
     // For Analytics
     public CoinBarScript coinBar;
+
+    public CameraController cameraController;
+    [SerializeField] private AudioSource coinCollectSound;
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource healthSound;
+    [SerializeField] private AudioSource hurtSound;
 
     private long _sessionID;
     private string _obstacleAtWhichKilled;
@@ -225,11 +234,13 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerHealth = GetComponent<Health>();
+
+        coinBar.Init();
+        isGoldenBridgeActivated = false;
     }
 
     void RestartGame()
     {
-        CoinCollection.totalCoins = 0;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -243,13 +254,9 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && !isJumping)
         {
-            // //added code
-            // if( isGrounded == true){
-            //     rb.AddForce(new Vector2(rb.velocity.x, jump));
-            // }
-            // isGrounded = true;
             rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
             isJumping = true;
+            jumpSound.Play();
         }
 
         UpdateAnimation();
@@ -271,44 +278,48 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
-        {
-            if (target.gameObject.tag == "Water")
+        if (
+            target.gameObject.tag == "Enemy1" ||
+            target.gameObject.tag == "Enemy2" ||
+            target.gameObject.tag == "Enemy3" ||
+            target.gameObject.tag == "Enemy4" ||
+            target.gameObject.tag == "Enemy5"
+        ){
+            if(isShield)
             {
-                // Send where player loses health
-                Send("JumpedIntoWater");
-            }
-            else if (target.gameObject.tag == "Obstacle")
-            {
-                if(isShield)
-                {
-                    Destroy(target.gameObject);
-                }
-
-                // Send where player loses health
-                Send(target.gameObject.name);
-
+                Destroy(target.gameObject);
+                // play sound
             }
             else
             {
                 // Send where player loses health
                 Send(target.gameObject.tag);
+                Die();
             }
-            //Send2(false);
-            //Send3();
-            // RestartGame();
-            // gameOverManager.SetGameOver();
+        }
+        else if (target.gameObject.tag == "Hinge"){
             Die();
         }
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_0" || target.gameObject.tag == "Platform_1") 
-        {
+
+        if(
+            target.gameObject.tag == "Floor" || 
+            target.gameObject.tag == "Platform_0" || 
+            target.gameObject.tag == "Platform_1" || 
+            target.gameObject.tag == "Platform_2"
+        ){
             isJumping = false;
         }
     }
 
     void OnTriggerEnter2D(Collider2D target)
     {
-        if(target.tag == "GameOver")
+        if (target.tag == "Coin")
+        {
+            Destroy(target.gameObject);
+            coinBar.AddCoins(1);
+            coinCollectSound.Play();
+        }
+        else if(target.tag == "GameOver")
         {   
             // Send where player loses health
             Send("JumpedToDeath");
@@ -369,6 +380,8 @@ public class PlayerController : MonoBehaviour
             Send4("LifePowerup");
 
             playerHealth.AddLife(1);
+            healthSound.Play();
+
             Destroy(target.gameObject);
         }
         else if (target.gameObject.tag == "Shield_Powerup")
@@ -380,6 +393,40 @@ public class PlayerController : MonoBehaviour
             isShield = true;
             playerShield.SetActive(true);
             StartCoroutine(ResetShieldPowerup());
+        }
+        else if (target.tag == "Lever")
+        {
+            if (coinBar.currentCoins >= coinBar.maxCoins)
+            {
+                if(isGoldenBridgeActivated)
+                    return;
+                
+                isGoldenBridgeActivated = true;
+
+                SpriteRenderer sr = target.gameObject.GetComponent<SpriteRenderer>(); 
+                sr.flipX = true;
+
+                StartCoroutine(BridgeScaleUpAnimation(1.5f));
+            }
+            else
+            {
+                StartCoroutine(cameraController.Shake());
+            }
+        }
+    }
+
+    IEnumerator BridgeScaleUpAnimation(float time)
+    {
+        float i = 0;
+        float rate = 1 / time;
+
+        Vector3 fromScale = goldenBridge.transform.localScale;
+        Vector3 toScale = new Vector3(4.0f, fromScale.y, fromScale.z);
+        while (i<1)
+        {
+            i += Time.deltaTime * rate;
+            goldenBridge.transform.localScale = Vector3.Lerp(fromScale, toScale, i);
+            yield return 0;
         }
     }
 
@@ -406,6 +453,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            hurtSound.Play();
             anim.SetTrigger("hurt");
         }
     }
@@ -417,6 +465,8 @@ public class PlayerController : MonoBehaviour
 
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetTrigger("death");
+        deathSound.Play();
+
         Invoke("callGameOver", 1f); 
     }
 

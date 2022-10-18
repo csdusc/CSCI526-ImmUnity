@@ -242,7 +242,6 @@ public class PlayerController_Level3 : MonoBehaviour
 
     void RestartGame()
     {
-        CoinCollection.totalCoins = 0;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -283,36 +282,62 @@ public class PlayerController_Level3 : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "Hinge")
-        {
-            if (target.gameObject.tag == "Water")
-            {
-                // Send where player loses health
-                Send("JumpedIntoWater");
-            }
-            else if (target.gameObject.tag == "Obstacle")
-            {
-                if(isShield)
-                {
-                    Destroy(target.gameObject);
-                }
-                
-                // Send where player loses health
-                Send(target.gameObject.name);
 
+        if (
+            target.gameObject.tag == "SpikeSet1" ||
+            target.gameObject.tag == "SpikeSet2" ||
+            target.gameObject.tag == "SpikeSet3" ||
+            target.gameObject.tag == "SpikeSet4" ||
+            target.gameObject.tag == "SpikeSet5" ||
+            target.gameObject.tag == "SpikeSet6" ||
+            target.gameObject.tag == "SpikeSet7"
+        ){
+            isJumping = false;
+            Die();
+        }
+        else if (
+            target.gameObject.tag == "Saw1" ||
+            target.gameObject.tag == "Saw2" ||
+            target.gameObject.tag == "Saw3" ||
+            target.gameObject.tag == "Saw4"
+        ){
+            Die();
+        }
+        else if (
+            target.gameObject.tag == "Enemy1" ||
+            target.gameObject.tag == "Enemy2" ||
+            target.gameObject.tag == "Enemy3" ||
+            target.gameObject.tag == "Enemy4" ||
+            target.gameObject.tag == "Enemy5" ||
+            target.gameObject.tag == "Enemy6" ||
+            target.gameObject.tag == "Enemy7" ||
+            target.gameObject.tag == "Enemy8"
+        ){
+            if(isShield)
+            {
+                Destroy(target.gameObject);
+                // play sound
             }
             else
             {
                 // Send where player loses health
                 Send(target.gameObject.tag);
+                Die();
             }
-            
-            //Send3();
-            
+        }
+        else if (target.gameObject.tag == "Hinge"){
             Die();
         }
-        if(target.gameObject.tag == "Floor" || target.gameObject.tag == "Obstacle" || target.gameObject.tag == "CoinPlatform" || target.gameObject.tag == "Platform_1_L3" ||  target.gameObject.tag == "Platform_3_L3" || target.gameObject.tag == "Platform_4_L3") 
-        {
+        else if (target.gameObject.tag == "SpikeBall"){
+            Die();
+        }
+
+        if(
+            target.gameObject.tag == "Floor" || 
+            target.gameObject.tag == "Platform_1_L3" || 
+            target.gameObject.tag == "Platform_4_L3" || 
+            target.gameObject.tag == "Platform_3_L3"
+        ){
             isJumping = false;
         }
     }
@@ -383,7 +408,7 @@ public class PlayerController_Level3 : MonoBehaviour
             
             //Send3();
             // gameOverManager.SetGameOver();
-            triggerDie();
+            Die();
         }
         else if(target.tag == "LevelCompleted")
         {   
@@ -406,8 +431,11 @@ public class PlayerController_Level3 : MonoBehaviour
             //Send powerup collected
             Send4("FreezePowerup");
         }
-        else if(target.gameObject.tag == "Life_Powerup")
-        {
+        else if(
+            target.gameObject.tag == "Life_Powerup_1" || 
+            target.gameObject.tag == "Life_Powerup_2" ||
+            target.gameObject.tag == "Life_Powerup_3"
+        ){
             //Send powerup collected
             Send4("LifePowerup");
 
@@ -435,7 +463,6 @@ public class PlayerController_Level3 : MonoBehaviour
                 
                 isGoldenBridgeActivated = true;
 
-                coinCollectSound.Play();
                 SpriteRenderer sr = target.gameObject.GetComponent<SpriteRenderer>(); 
                 sr.flipX = true;
 

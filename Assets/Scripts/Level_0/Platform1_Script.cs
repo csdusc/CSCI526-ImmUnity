@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Platform1_Script : MonoBehaviour
 {
-    private float min_x_left = 1f, max_x_right = 4.0f, speed = 300f, scaleRate = 0.03f;
+    private float min_x_left = 1f, max_x_right = 3.85f, speed = 300f, scaleRate = 0.03f;
+    private float max_scale_value = 4.0f;
     private bool canMove;
     private Rigidbody2D body;
     public PlayerController playerController;
     public GameOver_Manager gameOverManager;
     public CameraShake cameraShake;
-   public Platform0_Script pla0;
+    public Platform0_Script pla0;
     public GameObject Panel2;
    
 
@@ -71,10 +72,18 @@ public class Platform1_Script : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D target)
     {
-        if(target.gameObject.tag == "Water")
+        if(target.gameObject.tag == "Hinge")
+        {
+            StartCoroutine(ScaleDownAnimation(0.5f));
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        if(target.gameObject.tag == "GameOver")
         {
             // Send where player loses health
-            playerController.Send("Bridge2");
+            playerController.Send("Bridge1");
             
             //Send player started vs ended
             playerController.Send2(false);
@@ -83,11 +92,7 @@ public class Platform1_Script : MonoBehaviour
             playerController.Send3(false);
             // RestartGame();
             gameOverManager.SetGameOver();
-        }
 
-        if(target.gameObject.tag == "Hinge")
-        {
-            StartCoroutine(ScaleDownAnimation(0.5f));
         }
     }
 
@@ -97,7 +102,7 @@ public class Platform1_Script : MonoBehaviour
         float rate = 1 / time;
 
         Vector3 fromScale = transform.localScale;
-        Vector3 toScale = new Vector3(max_x_right, fromScale.y, fromScale.z);
+        Vector3 toScale = new Vector3(max_scale_value, fromScale.y, fromScale.z);
         while (i<1)
         {
             i += Time.deltaTime * rate;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Platform_1_L2 : MonoBehaviour
 {
     // private float min_x_left = 0.2f, max_x_right = 4.0f, speed = 0f, scaleRate = 0.1f;
-    private float min_x_left = 0.2f, max_x_right = 3.8f, speed = 230f, scaleRate = 0.03f;
+    private float min_x_left = 0.2f, max_x_right = 3.8f, speed = 180f, scaleRate = 0.03f;
     private float max_right_animation = 4.0f;
     private float platformspeed = 300f;
     private bool canMove;
