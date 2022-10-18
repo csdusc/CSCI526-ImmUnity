@@ -294,6 +294,8 @@ public class PlayerController_Level2 : MonoBehaviour
             target.gameObject.tag == "SpikeSet10" ||
             target.gameObject.tag == "SpikeSet11"
         ){
+            // Send where player loses health
+            Send(target.gameObject.tag);
             isJumping = false;
             Die();
         }
@@ -301,6 +303,8 @@ public class PlayerController_Level2 : MonoBehaviour
             target.gameObject.tag == "Saw1" ||
             target.gameObject.tag == "Saw2"
         ){
+            // Send where player loses health
+            Send(target.gameObject.tag);
             Die();
         }
         else if (
@@ -322,6 +326,8 @@ public class PlayerController_Level2 : MonoBehaviour
             }
         }
         else if (target.gameObject.tag == "Hinge"){
+            // Send where player loses health
+            Send(target.gameObject.tag);
             Die();
         }
         
@@ -422,7 +428,10 @@ public class PlayerController_Level2 : MonoBehaviour
         else if(target.gameObject.tag == "Life_Powerup_1" || target.gameObject.tag == "Life_Powerup_2")
         {
             //Send powerup collected
-            Send4("LifePowerup"); // send target.gameObject.tag
+            //Send4("LifePowerup"); // send target.gameObject.tag
+
+            //Send powerup collected
+            Send4(target.gameObject.tag); 
 
             playerHealth.AddLife(1);
             healthSound.Play();

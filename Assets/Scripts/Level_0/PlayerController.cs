@@ -110,8 +110,8 @@ public class PlayerController : MonoBehaviour
     public void Send3(bool didPlayerCompleteLevel)
     {
         //StartCoroutine(Upload3(CoinCollection.totalCoins.ToString()));
-        //StartCoroutine(Upload3(coinBar.totalCoinsCollected.ToString(), didPlayerCompleteLevel.ToString()));
-        StartCoroutine(Upload3("0", didPlayerCompleteLevel.ToString()));
+        StartCoroutine(Upload3(coinBar.totalCoinsCollected.ToString(), didPlayerCompleteLevel.ToString()));
+        //StartCoroutine(Upload3("0", didPlayerCompleteLevel.ToString()));
     }
 
     // Upload analytics for coins collected
@@ -298,6 +298,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         else if (target.gameObject.tag == "Hinge"){
+            // Send where player loses health
+            Send(target.gameObject.tag);
             Die();
         }
 
