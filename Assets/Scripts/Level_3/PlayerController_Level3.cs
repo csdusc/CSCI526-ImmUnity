@@ -30,6 +30,7 @@ public class PlayerController_Level3 : MonoBehaviour
     public VerticalBridgeDown vbd;
     public GameObject playerShield;
     public CoinBarScript coinBar;
+    public CoinCollectAnimation coinCollect;
     public CameraController cameraController;
     [SerializeField] private AudioSource coinCollectSound;
     [SerializeField] private AudioSource jumpSound;
@@ -355,8 +356,10 @@ public class PlayerController_Level3 : MonoBehaviour
     {
         if (target.tag == "Coin")
         {
+            coinCollect.startCoinMove(target.transform.position, ()=>{
+                coinBar.AddCoins(1);
+            });
             Destroy(target.gameObject);
-            coinBar.AddCoins(1);
             coinCollectSound.Play();
         }
         else if(target.tag == "GameOver")

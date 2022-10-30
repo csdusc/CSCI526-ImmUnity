@@ -4614,6 +4614,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2000089672}
+  - {fileID: 1160357033}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10010,6 +10011,7 @@ MonoBehaviour:
   - {fileID: 600899473}
   playerShield: {fileID: 138523464}
   coinBar: {fileID: 2000089673}
+  coinCollect: {fileID: 1160357034}
   cameraController: {fileID: 519420034}
   coinCollectSound: {fileID: 600557349}
   jumpSound: {fileID: 600557350}
@@ -109313,6 +109315,59 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1160357032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160357033}
+  - component: {fileID: 1160357034}
+  m_Layer: 5
+  m_Name: CoinCollectAnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1160357033
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160357032}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.799993, y: 1.799993, z: 1.799993}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 271721730}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -2643.4219, y: 102.857124}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1160357034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160357032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38cf5fdd2a2aa4ede87a6a5b8bb4e961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinAnimationSpeed: 15
+  target: {fileID: 813044675}
+  CoinPrefab: {fileID: 3375379683393904000, guid: 45ad248d30d1c41b9a0c7a6b0045ce3d, type: 3}
+  cam: {fileID: 519420031}
 --- !u!1 &1163431917
 GameObject:
   m_ObjectHideFlags: 0
