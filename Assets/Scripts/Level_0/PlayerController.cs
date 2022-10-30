@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
 
+    public CoinCollectAnimation coinCollect;
     // For Analytics
     public CoinBarScript coinBar;
 
@@ -317,8 +318,10 @@ public class PlayerController : MonoBehaviour
     {
         if (target.tag == "Coin")
         {
+            coinCollect.startCoinMove(target.transform.position, ()=>{
+                coinBar.AddCoins(1);
+            });
             Destroy(target.gameObject);
-            coinBar.AddCoins(1);
             coinCollectSound.Play();
         }
         else if(target.tag == "GameOver")
