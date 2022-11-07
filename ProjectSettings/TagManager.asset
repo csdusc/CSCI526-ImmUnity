@@ -72,6 +72,8 @@ TagManager:
   - SpikeBall
   - Life_Powerup_5
   - WeakSpot
+  - WeakSpot
+  - Teleporter
   layers:
   - Default
   - TransparentFX

@@ -22,6 +22,7 @@ public class PlayerController_Level2 : MonoBehaviour
     public GameObject goldenBridge;
     private bool isGoldenBridgeActivated;
 
+
     private SpriteRenderer sprite;
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
@@ -239,6 +240,7 @@ public class PlayerController_Level2 : MonoBehaviour
 
         coinBar.Init();
         isGoldenBridgeActivated = false;
+        // player = GameObject.FindWithTag("Player");
     }
 
     void RestartGame()
@@ -475,7 +477,11 @@ public class PlayerController_Level2 : MonoBehaviour
                 StartCoroutine(cameraController.Shake());
             }
         }
+        
     }
+    
+    
+
 
     IEnumerator BridgeScaleUpAnimation(float time)
     {
