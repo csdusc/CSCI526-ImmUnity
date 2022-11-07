@@ -378,6 +378,12 @@ public class PlayerController_Level2 : MonoBehaviour
             _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 2;
         }
+
+        else if(target.tag == "BulletStopWall")
+        {
+            currentPlatform = 3;
+        }
+
         else if(target.tag == "EndPlatform0")
         {
             _playerObstacleEndTime = DateTime.Now.ToString("h:mm:ss");
@@ -405,6 +411,12 @@ public class PlayerController_Level2 : MonoBehaviour
             
             Die();
         }
+
+        else if (target.tag == "Bullet") 
+        {
+            Die(); 
+        }
+
         else if(target.tag == "LevelCompleted")
         {            
             //Send player started vs ended
