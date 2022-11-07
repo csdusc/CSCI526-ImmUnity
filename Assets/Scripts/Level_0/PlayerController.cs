@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
     private bool isJumping; //added code
-    private Health playerHealth;
+    
+    // Changing for checkpoint
+    //private Health playerHealth;
+    public Health playerHealth;
+    
     private bool isShield;
     public GameObject playerShield;
     public GameObject goldenBridge;
@@ -441,8 +445,10 @@ public class PlayerController : MonoBehaviour
         isShield = false;
         playerShield.SetActive(false);
     }
-
-    private void Die()
+    
+    //Changing for checkpoints
+    //private void Die()
+    public void Die()
     {
         if(isShield)
             return;
@@ -462,8 +468,10 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("hurt");
         }
     }
-
-    private void triggerDie()
+    
+    //Changing for checkpoints
+    //private void triggerDie()
+    public void triggerDie()
     {
         // Send coins collected on death
         Send3(false);

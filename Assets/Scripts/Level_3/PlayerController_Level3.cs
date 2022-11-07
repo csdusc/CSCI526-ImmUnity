@@ -25,7 +25,11 @@ public class PlayerController_Level3 : MonoBehaviour
     private SpriteRenderer sprite;
     public GameOver_Manager gameOverManager;
     public GameOver_Manager levelCompleteScreen;
-    private Health playerHealth;
+    
+    // Changing for checkpoint
+    //private Health playerHealth;
+    public Health playerHealth;
+    
     public VerticalBridgeUp vbu;
     public VerticalBridgeDown vbd;
     public GameObject playerShield;
@@ -516,7 +520,9 @@ public class PlayerController_Level3 : MonoBehaviour
         playerShield.SetActive(false);
     }
 
-    private void Die()
+    //Changing for checkpoints
+    //private void Die()
+    public void Die()
     {
         if(isShield)
             return;
@@ -534,7 +540,9 @@ public class PlayerController_Level3 : MonoBehaviour
         }
     }
 
-    private void triggerDie()
+    //Changing for checkpoints
+    //private void triggerDie()
+    public void triggerDie()
     {
         //Send player started vs ended
         Send2(false);
