@@ -72,6 +72,7 @@ TagManager:
   - SpikeBall
   - Life_Powerup_5
   - WeakSpot
+  - BluePrism
   layers:
   - Default
   - TransparentFX
