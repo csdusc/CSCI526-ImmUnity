@@ -16,10 +16,15 @@ public class Platform2_Script : MonoBehaviour
     public GameObject Panel_coins_all;
     public string textFieldText2 = "Insufficient coins to drop bridge";
 
+    //Checkpoint
+    private Vector3 respawnPoint;
+
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
+        //Checkpoint
+        respawnPoint = transform.position;
     }
 
     // Start is called before the first frame update
@@ -101,7 +106,27 @@ public class Platform2_Script : MonoBehaviour
             //Send coins collected on death
             playerController.Send3(false);
             // RestartGame();
-            gameOverManager.SetGameOver();
+            
+            //Changing for checkpoint
+            //gameOverManager.SetGameOver();
+
+            if(playerController.playerHealth.currenthealth >= 1)
+            {
+                playerController.Die();
+                
+                canMove = false;
+                
+                body.velocity = Vector2.zero;
+                body.gravityScale = 0f;
+                transform.position = respawnPoint;
+                
+                canMove = true;
+                
+            }
+            else
+            {
+                playerController.triggerDie();
+            }
         }
 
         if(target.gameObject.tag == "Hinge")

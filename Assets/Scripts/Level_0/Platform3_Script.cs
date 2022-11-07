@@ -12,10 +12,15 @@ public class Platform3_Script : MonoBehaviour
     public GameOver_Manager gameOverManager;
     public CameraShake cameraShake;
 
+    //Checkpoint
+    private Vector3 respawnPoint;
+
     void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         body.gravityScale = 0f;
+        //Checkpoint
+        respawnPoint = transform.position;
     }
 
     // Start is called before the first frame update
@@ -87,7 +92,26 @@ public class Platform3_Script : MonoBehaviour
             //Send coins collected on death
             playerController.Send3(false);
             // RestartGame();
-            gameOverManager.SetGameOver();
+            
+            //Changing for checkpoint
+            //gameOverManager.SetGameOver();
+            if(playerController.playerHealth.currenthealth >= 1)
+            {
+                playerController.Die();
+                
+                canMove = false;
+                
+                body.velocity = Vector2.zero;
+                body.gravityScale = 0f;
+                transform.position = respawnPoint;
+                
+                canMove = true;
+                
+            }
+            else
+            {
+                playerController.triggerDie();
+            }
 
         }
     }
