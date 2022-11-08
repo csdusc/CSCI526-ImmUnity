@@ -75,6 +75,11 @@ TagManager:
   - BluePrism
   - Bullet
   - BulletStopWall
+  - prism_orange
+  - prism_blue
+  - prism_red
+  - PlayerFeet
+  - BulletEnemy
   layers:
   - Default
   - TransparentFX
