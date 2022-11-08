@@ -78,6 +78,7 @@ TagManager:
   - prism_orange
   - prism_blue
   - prism_red
+  - PlayerFeet
   layers:
   - Default
   - TransparentFX
