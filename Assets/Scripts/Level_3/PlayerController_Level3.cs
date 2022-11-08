@@ -363,6 +363,19 @@ public class PlayerController_Level3 : MonoBehaviour
             coinCollect.startCoinMove(target.transform.position, ()=>{
                 coinBar.AddCoins(1);
             });
+
+            if (coinBar.currentCoins == 6){
+                isShield = true;
+                playerShield.SetActive(true);
+                StartCoroutine(ResetShieldPowerup());
+            }
+
+            if(coinBar.currentCoins == 13)
+            {
+                playerHealth.AddLife(1);
+                healthSound.Play();
+            }
+
             Destroy(target.gameObject);
             coinCollectSound.Play();
         }
