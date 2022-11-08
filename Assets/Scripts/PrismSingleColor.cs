@@ -33,7 +33,7 @@ public class PrismSingleColor : MonoBehaviour
                 toEnable[i].SetActive(true);
             }
 
-            Destroy(gameObject, 0);
+            Destroy(gameObject.transform.parent.gameObject, 0);
         }
     }
 }
