@@ -353,18 +353,18 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             coinCollect.startCoinMove(target.transform.position, ()=>{
                 coinBar.AddCoins(1);
+
+                if (coinBar.currentCoins == 8){
+                    isShield = true;
+                    playerShield.SetActive(true);
+                    StartCoroutine(ResetShieldPowerup());
+                }
+
+                if(coinBar.currentCoins == 17)
+                {
+                    playerHealth.AddLife(1);
+                }
             });
-
-            if (coinBar.currentCoins == 8){
-                isShield = true;
-                playerShield.SetActive(true);
-                StartCoroutine(ResetShieldPowerup());
-            }
-
-            if(coinBar.currentCoins == 17)
-            {
-                playerHealth.AddLife(1);
-            }
 
             Destroy(target.gameObject);
             coinCollectSound.Play();
