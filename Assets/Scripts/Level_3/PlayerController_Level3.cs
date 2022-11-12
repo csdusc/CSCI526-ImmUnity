@@ -516,7 +516,8 @@ public class PlayerController_Level3 : MonoBehaviour
         float rate = 1 / time;
 
         Vector3 fromScale = goldenBridge.transform.localScale;
-        Vector3 toScale = new Vector3(4.0f, fromScale.y, fromScale.z);
+        // Vector3 toScale = new Vector3(4.0f, fromScale.y, fromScale.z);
+        Vector3 toScale = new Vector3(6.0f, fromScale.y, fromScale.z);
         while (i<1)
         {
             i += Time.deltaTime * rate;
