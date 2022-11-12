@@ -24,7 +24,7 @@ public class Teleport : MonoBehaviour
         
         if(collision.tag == "Player")
         {
-            x = ran.Next(0, 13);
+            x = ran.Next(0, 9);
             if ((x%2) == 0)
             {
                 player.transform.position = new Vector2(portal1.transform.position.x, portal1.transform.position.y);
