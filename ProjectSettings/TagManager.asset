@@ -79,6 +79,7 @@ TagManager:
   - prism_blue
   - prism_red
   - PlayerFeet
+  - BulletEnemy
   layers:
   - Default
   - TransparentFX

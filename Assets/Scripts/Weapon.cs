@@ -7,6 +7,8 @@ public class Weapon : MonoBehaviour
     public Transform firePoint;
     public GameObject bulletPrefab;
     private float shootingTime;
+    public float speed;
+    public bool directionLeft;
 
     // Update is called once per frame
     void Update()
@@ -14,7 +16,8 @@ public class Weapon : MonoBehaviour
         if (Time.time > shootingTime)
         {
             shootingTime = Time.time + 1.0f;
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject obj = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            obj.GetComponent<Bullet>().receiveParams(speed, directionLeft);
         }
     }
 }

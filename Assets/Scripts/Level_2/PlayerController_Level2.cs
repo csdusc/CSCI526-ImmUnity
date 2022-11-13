@@ -317,7 +317,8 @@ public class PlayerController_Level2 : MonoBehaviour
             target.gameObject.tag == "Enemy1" ||
             target.gameObject.tag == "Enemy2" ||
             target.gameObject.tag == "Enemy3" ||
-            target.gameObject.tag == "Enemy4"
+            target.gameObject.tag == "Enemy4" ||
+            target.gameObject.tag == "BulletEnemy"
         ){
             if(isShield)
             {
@@ -393,11 +394,6 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 2;
-        }
-
-        else if(target.tag == "BulletStopWall")
-        {
-            currentPlatform = 3;
         }
 
         else if(target.tag == "EndPlatform0")
