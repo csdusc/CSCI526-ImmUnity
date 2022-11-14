@@ -16,6 +16,8 @@ public class PlayerController_Level3 : MonoBehaviour
     public float currentPlatform;
     private bool isJumping;
     private bool isShield;
+    private int gravityDirection;
+    private bool temp = false;
 
     public Rigidbody2D rb;
     private Animator anim;
@@ -237,6 +239,8 @@ public class PlayerController_Level3 : MonoBehaviour
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
+        gravityDirection = 1; // 1 means normal, -1 means inverted
+        rb.gravityScale = gravityDirection * 2f;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -261,7 +265,7 @@ public class PlayerController_Level3 : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && !isJumping)
         {
-            rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
+            rb.AddForce(new Vector2(rb.velocity.x, gravityDirection * jump));  //commented code
             isJumping = true;
             jumpSound.Play();
         }
@@ -273,12 +277,25 @@ public class PlayerController_Level3 : MonoBehaviour
         if(move > 0f)
         {
             anim.SetBool("running", true);
-            sprite.flipX = false;
+
+            if (gravityDirection == 1){
+                sprite.flipX = false;
+            }
+            else{
+                sprite.flipX = true;
+            }
+            
         }
         else if(move < 0f)
         {
             anim.SetBool("running", true);
-            sprite.flipX = true;
+            
+            if (gravityDirection == -1){
+                sprite.flipX = false;
+            }
+            else{
+                sprite.flipX = true;
+            }
         }
         else
         {
@@ -508,6 +525,35 @@ public class PlayerController_Level3 : MonoBehaviour
                 StartCoroutine(cameraController.Shake());
             }
         }
+        else if(target.tag == "GravityPad")
+        {
+            if(!temp){
+                temp = true;
+                gravityDirection *= -1;
+            
+                if(gravityDirection == 1)
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                    // transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0f), Time.deltaTime * 2f);
+
+                    // Vector3 direction = new Vector3(0, 0, 0);
+                    // Quaternion targetRotation = Quaternion.Euler(direction);
+                    // transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 20f);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                    // transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(transform.rotation.x, transform.rotation.y, 180f), Time.deltaTime * 2f);
+
+                    // Vector3 direction = new Vector3(180, 180, 180);
+                    // Quaternion targetRotation = Quaternion.Euler(direction);
+                    // transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 20f);
+                }
+
+                rb.gravityScale = gravityDirection * 2f;
+                StartCoroutine(ResetGravityPad());
+            }
+        }
     }
 
     IEnumerator BridgeScaleUpAnimation(float time)
@@ -524,6 +570,12 @@ public class PlayerController_Level3 : MonoBehaviour
             goldenBridge.transform.localScale = Vector3.Lerp(fromScale, toScale, i);
             yield return 0;
         }
+    }
+
+    private IEnumerator ResetGravityPad()
+    {
+        yield return new WaitForSeconds(0.5f);
+        temp = false;
     }
 
     private IEnumerator ResetShieldPowerup()
