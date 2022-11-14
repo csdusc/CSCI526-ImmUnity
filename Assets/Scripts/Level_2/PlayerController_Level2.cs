@@ -16,6 +16,9 @@ public class PlayerController_Level2 : MonoBehaviour
     public float currentPlatform;
     private bool isJumping;
     private bool isShield;
+    private bool canSawHit;
+    private bool canSpikeHit;
+    private bool canEnemyHit;
 
     public Rigidbody2D rb;
     private Animator anim;
@@ -236,6 +239,9 @@ public class PlayerController_Level2 : MonoBehaviour
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
+        canSawHit = true;
+        canSpikeHit = true;
+        canEnemyHit = true;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -300,18 +306,28 @@ public class PlayerController_Level2 : MonoBehaviour
             target.gameObject.tag == "SpikeSet10" ||
             target.gameObject.tag == "SpikeSet11"
         ){
-            // Send where player loses health
-            Send(target.gameObject.tag);
-            isJumping = false;
-            Die();
+            if(canSpikeHit)
+            {
+                canSpikeHit = false;
+                StartCoroutine(ResetAnimSpikeHit());
+                // Send where player loses health
+                Send(target.gameObject.tag);
+                isJumping = false;
+                Die();
+            }
         }
         else if (
             target.gameObject.tag == "Saw1" ||
             target.gameObject.tag == "Saw2"
         ){
             // Send where player loses health
-            Send(target.gameObject.tag);
-            Die();
+            if(canSawHit)
+            {
+                canSawHit = false;
+                StartCoroutine(ResetSawHit());
+                Send(target.gameObject.tag);
+                Die();
+            }
         }
         else if (
             target.gameObject.tag == "Enemy1" ||
@@ -327,9 +343,14 @@ public class PlayerController_Level2 : MonoBehaviour
             }
             else
             {
-                // Send where player loses health
-                Send(target.gameObject.tag);
-                Die();
+                if(canEnemyHit)
+                {
+                    canEnemyHit = false;
+                    StartCoroutine(ResetEnemyHit());
+                    // Send where player loses health
+                    Send(target.gameObject.tag);
+                    Die();
+                }
             }
         }
         else if (target.gameObject.tag == "Hinge"){
@@ -374,10 +395,6 @@ public class PlayerController_Level2 : MonoBehaviour
         {
             // Send where player loses health
             Send("JumpedToDeath");
-            
-            //Send3();
-            // RestartGame();
-            // gameOverManager.SetGameOver();
             triggerDie();
         }
         else if(target.tag == "SetPlatform0")
@@ -522,7 +539,25 @@ public class PlayerController_Level2 : MonoBehaviour
         isShield = false;
         playerShield.SetActive(false);
     }
+
+    private IEnumerator ResetSawHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canSawHit = true;
+    }
     
+    private IEnumerator ResetAnimSpikeHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canSpikeHit = true;
+    }
+    
+    private IEnumerator ResetEnemyHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canEnemyHit = true;
+    }
+
     //Changing for checkpoint
     //private void Die()
     public void Die()

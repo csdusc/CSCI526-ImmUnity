@@ -18,7 +18,10 @@ public class PlayerController_Level3 : MonoBehaviour
     private bool isShield;
     private int gravityDirection;
     private bool temp = false;
-
+    private bool canSawHit;
+    private bool canSpikeHit;
+    private bool canEnemyHit;
+    
     public Rigidbody2D rb;
     private Animator anim;
     public GameObject goldenBridge;
@@ -248,6 +251,9 @@ public class PlayerController_Level3 : MonoBehaviour
 
         coinBar.Init();
         isGoldenBridgeActivated = false;
+        canSawHit = true;
+        canSpikeHit = true;
+        canEnemyHit = true;
     }
 
     void RestartGame()
@@ -315,10 +321,15 @@ public class PlayerController_Level3 : MonoBehaviour
             target.gameObject.tag == "SpikeSet6" ||
             target.gameObject.tag == "SpikeSet7"
         ){
-            // Send where player loses health
-            Send(target.gameObject.tag);
-            isJumping = false;
-            Die();
+            if(canSpikeHit)
+            {
+                canSpikeHit = false;
+                StartCoroutine(ResetAnimSpikeHit());
+                // Send where player loses health
+                Send(target.gameObject.tag);
+                isJumping = false;
+                Die();
+            }
         }
         else if (
             target.gameObject.tag == "Saw1" ||
@@ -326,9 +337,14 @@ public class PlayerController_Level3 : MonoBehaviour
             target.gameObject.tag == "Saw3" ||
             target.gameObject.tag == "Saw4"
         ){
-            // Send where player loses health
-            Send(target.gameObject.tag);
-            Die();
+            if(canSawHit)
+            {
+                canSawHit = false;
+                StartCoroutine(ResetSawHit());
+                // Send where player loses health
+                Send(target.gameObject.tag);
+                Die();
+            }
         }
         else if (
             target.gameObject.tag == "Enemy1" ||
@@ -348,9 +364,14 @@ public class PlayerController_Level3 : MonoBehaviour
             }
             else
             {
-                // Send where player loses health
-                Send(target.gameObject.tag);
-                Die();
+                if(canEnemyHit)
+                {
+                    canEnemyHit = false;
+                    StartCoroutine(ResetEnemyHit());
+                    // Send where player loses health
+                    Send(target.gameObject.tag);
+                    Die();
+                }
             }
         }
         else if (target.gameObject.tag == "Hinge"){
@@ -592,6 +613,25 @@ public class PlayerController_Level3 : MonoBehaviour
         playerShield.SetActive(false);
     }
 
+    private IEnumerator ResetSawHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canSawHit = true;
+    }
+    
+    private IEnumerator ResetAnimSpikeHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canSpikeHit = true;
+    }
+    
+    private IEnumerator ResetEnemyHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canEnemyHit = true;
+    }
+
+
     //Changing for checkpoints
     //private void Die()
     public void Die()
@@ -628,6 +668,7 @@ public class PlayerController_Level3 : MonoBehaviour
 
         Invoke("callGameOver", 1f); 
     }
+
 
     private void callGameOver()
     {

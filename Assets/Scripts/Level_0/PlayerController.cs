@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     private bool isJumping; //added code
     
+    private bool canEnemyHit;
+
     // Changing for checkpoint
     //private Health playerHealth;
     public Health playerHealth;
@@ -235,6 +237,7 @@ public class PlayerController : MonoBehaviour
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
+        canEnemyHit = true;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -297,9 +300,14 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                // Send where player loses health
-                Send(target.gameObject.tag);
-                Die();
+                if(canEnemyHit)
+                {
+                    canEnemyHit = false;
+                    StartCoroutine(ResetEnemyHit());
+                    // Send where player loses health
+                    Send(target.gameObject.tag);
+                    Die();
+                }
             }
         }
         else if (target.gameObject.tag == "Hinge"){
@@ -451,6 +459,11 @@ public class PlayerController : MonoBehaviour
         playerShield.SetActive(false);
     }
     
+    private IEnumerator ResetEnemyHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canEnemyHit = true;
+    }
     //Changing for checkpoints
     //private void Die()
     public void Die()
