@@ -343,6 +343,11 @@ public class PlayerController : MonoBehaviour
             // gameOverManager.SetGameOver();
             triggerDie();
         }
+
+        else if (target.tag == "Bullet")
+        {
+            Die();
+        }
         else if(target.tag == "SetPlatform0")
         {
             currentPlatform = 0;

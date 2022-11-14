@@ -338,7 +338,8 @@ public class PlayerController_Level3 : MonoBehaviour
             target.gameObject.tag == "Enemy5" ||
             target.gameObject.tag == "Enemy6" ||
             target.gameObject.tag == "Enemy7" ||
-            target.gameObject.tag == "Enemy8"
+            target.gameObject.tag == "Enemy8" ||
+            target.gameObject.tag == "BulletEnemy"
         ){
             if(isShield)
             {
@@ -455,6 +456,12 @@ public class PlayerController_Level3 : MonoBehaviour
             // gameOverManager.SetGameOver();
             Die();
         }
+
+        else if (target.tag == "Bullet") 
+        {
+            Die(); 
+        }
+        
         else if(target.tag == "LevelCompleted")
         {   
             //Send player started vs ended
