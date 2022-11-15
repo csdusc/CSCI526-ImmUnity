@@ -21,6 +21,8 @@ public class PlayerController_Level3 : MonoBehaviour
     private bool canSawHit;
     private bool canSpikeHit;
     private bool canEnemyHit;
+    private bool shieldActivate;
+    private bool heartActivate;
     
     public Rigidbody2D rb;
     private Animator anim;
@@ -40,6 +42,10 @@ public class PlayerController_Level3 : MonoBehaviour
     public GameObject playerShield;
     public CoinBarScript coinBar;
     public CoinCollectAnimation coinCollect;
+    public HeartAnimation heartAnimate;
+    public ShieldAnimation shieldAnimate;
+    public float shieldThreshold;
+    public float heratThreshold;
     public CameraController cameraController;
     [SerializeField] private AudioSource coinCollectSound;
     [SerializeField] private AudioSource jumpSound;
@@ -238,17 +244,23 @@ public class PlayerController_Level3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gravityDirection = 1; // 1 means normal, -1 means inverted
+        rb.gravityScale = gravityDirection * 2f;
+        anim = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
+        playerHealth = GetComponent<Health>();
+        Init();
+        
+    }
+
+    void Init()
+    {
         speed = 4f;
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
-        gravityDirection = 1; // 1 means normal, -1 means inverted
-        rb.gravityScale = gravityDirection * 2f;
-
-        anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
-        playerHealth = GetComponent<Health>();
-
+        shieldActivate = false;
+        heartActivate = false; 
         coinBar.Init();
         isGoldenBridgeActivated = false;
         canSawHit = true;
@@ -258,6 +270,7 @@ public class PlayerController_Level3 : MonoBehaviour
 
     void RestartGame()
     {
+        Init();
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
@@ -399,20 +412,29 @@ public class PlayerController_Level3 : MonoBehaviour
     {
         if (target.tag == "Coin")
         {
-            coinCollect.startCoinMove(target.transform.position, ()=>{
-                coinBar.AddCoins(1);
-                if (coinBar.currentCoins == 6){
-                    isShield = true;
-                    playerShield.SetActive(true);
-                    StartCoroutine(ResetShieldPowerup());
-                }
+            coinBar.AddCoins(1);
+            
+            if (!shieldActivate && coinBar.currentCoins >= shieldThreshold)
+            {
+                shieldActivate = true;
+                shieldAnimate.startShieldPowerup(target.transform.position);
+                
+                isShield = true;
+                playerShield.SetActive(true);
+                StartCoroutine(ResetShieldPowerup());
+            }
 
-                if(coinBar.currentCoins == 13)
-                {
-                    playerHealth.AddLife(1);
-                    healthSound.Play();
-                }
-                });
+            if(!heartActivate && coinBar.currentCoins >= heratThreshold)
+            {
+                heartActivate = true;
+                heartAnimate.startHeartPowerup(target.transform.position);
+                playerHealth.AddLife(1);
+                healthSound.Play();
+            }
+       
+            coinCollect.startCoinMove(target.transform.position, ()=>{
+                
+            });
 
             Destroy(target.gameObject);
             coinCollectSound.Play();
