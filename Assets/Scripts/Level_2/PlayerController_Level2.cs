@@ -19,6 +19,8 @@ public class PlayerController_Level2 : MonoBehaviour
     private bool canSawHit;
     private bool canSpikeHit;
     private bool canEnemyHit;
+    private bool shieldActivate;
+    private bool heartActivate;
 
     public Rigidbody2D rb;
     private Animator anim;
@@ -38,6 +40,10 @@ public class PlayerController_Level2 : MonoBehaviour
     public GameObject playerShield;
     public CoinBarScript coinBar;
     public CoinCollectAnimation coinCollect;
+    public HeartAnimation heartAnimate;
+    public ShieldAnimation shieldAnimate;
+    public float shieldThreshold;
+    public float heratThreshold;
     public CameraController cameraController;
     [SerializeField] private AudioSource coinCollectSound;
     [SerializeField] private AudioSource jumpSound;
@@ -235,20 +241,26 @@ public class PlayerController_Level2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 4f;
-        jump = 350;
-        currentPlatform = -1f;
-        isShield = false;
-        canSawHit = true;
-        canSpikeHit = true;
-        canEnemyHit = true;
 
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerHealth = GetComponent<Health>();
+        Init();
+    }
 
+    void Init()
+    {
+        speed = 4f;
+        jump = 350;
+        currentPlatform = -1f;
+        isShield = false;
+        shieldActivate = false;
+        heartActivate = false; 
         coinBar.Init();
         isGoldenBridgeActivated = false;
+        canSawHit = true;
+        canSpikeHit = true;
+        canEnemyHit = true;
     }
 
     void RestartGame()
@@ -373,19 +385,28 @@ public class PlayerController_Level2 : MonoBehaviour
     {
         if (target.tag == "Coin")
         {
+            coinBar.AddCoins(1);
+            
+            if (!shieldActivate && coinBar.currentCoins >= shieldThreshold)
+            {
+                shieldActivate = true;
+                shieldAnimate.startShieldPowerup(target.transform.position);
+                
+                isShield = true;
+                playerShield.SetActive(true);
+                StartCoroutine(ResetShieldPowerup());
+            }
+
+            if(!heartActivate && coinBar.currentCoins >= heratThreshold)
+            {
+                heartActivate = true;
+                heartAnimate.startHeartPowerup(target.transform.position);
+                playerHealth.AddLife(1);
+                healthSound.Play();
+            }
+    
             coinCollect.startCoinMove(target.transform.position, ()=>{
-                coinBar.AddCoins(1);
-
-                if (coinBar.currentCoins == 8){
-                    isShield = true;
-                    playerShield.SetActive(true);
-                    StartCoroutine(ResetShieldPowerup());
-                }
-
-                if(coinBar.currentCoins == 17)
-                {
-                    playerHealth.AddLife(1);
-                }
+                
             });
 
             Destroy(target.gameObject);
