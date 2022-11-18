@@ -34,7 +34,7 @@ public class Platform_1_L2 : MonoBehaviour
     void Update()
     {
         MovePlatform();
-
+        body.constraints = RigidbodyConstraints2D.None;
         if(Input.GetKeyDown(KeyCode.DownArrow) && playerController.currentPlatform == 0)
         {
             DropPlatform();
@@ -98,14 +98,19 @@ public class Platform_1_L2 : MonoBehaviour
 
             if(playerController.playerHealth.currenthealth >= 1)
             {
-                playerController.Die();
                 
+                playerController.Die();
                 canMove = false;
                 
+                body.angularVelocity = 0f;
                 body.velocity = Vector2.zero;
-                body.gravityScale = 0f;
-                transform.position = respawnPoint;
+
+                body.transform.eulerAngles = Vector3.zero;
                 
+                body.gravityScale = 0f;
+
+                transform.position = respawnPoint;
+
                 canMove = true;
                 
             }
