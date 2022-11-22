@@ -81,6 +81,10 @@ TagManager:
   - PlayerFeet
   - BulletEnemy
   - GravityPad
+  - SetPlatform3
+  - SetPlatform4
+  - Platform_3
+  - Platform_4
   layers:
   - Default
   - TransparentFX
