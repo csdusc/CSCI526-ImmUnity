@@ -24,4 +24,11 @@ public class CoinBarScript : MonoBehaviour
         currentCoins = Mathf.Clamp(currentCoins + coins, 0, maxCoins);
         slider.value = currentCoins;
     }
+
+    public void SubCoins(int coins)
+    {
+        totalCoinsCollected--;
+        currentCoins = Mathf.Clamp(currentCoins - coins, 0, maxCoins);
+        slider.value = currentCoins;
+    }
 }
