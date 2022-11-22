@@ -255,7 +255,7 @@ public class PlayerController_Level3 : MonoBehaviour
 
     void Init()
     {
-        speed = 4f;
+        speed = 4.7f;
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
@@ -370,12 +370,7 @@ public class PlayerController_Level3 : MonoBehaviour
             target.gameObject.tag == "Enemy8" ||
             target.gameObject.tag == "BulletEnemy"
         ){
-            if(isShield)
-            {
-                Destroy(target.gameObject);
-                // play sound
-            }
-            else
+            if(!isShield)
             {
                 if(canEnemyHit)
                 {

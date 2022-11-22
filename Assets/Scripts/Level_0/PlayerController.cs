@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 4f;
+        speed = 4.7f;
         jump = 350;
         currentPlatform = -1f;
         isShield = false;
@@ -293,12 +293,7 @@ public class PlayerController : MonoBehaviour
             target.gameObject.tag == "Enemy4" ||
             target.gameObject.tag == "Enemy5"
         ){
-            if(isShield)
-            {
-                Destroy(target.gameObject);
-                // play sound
-            }
-            else
+            if(!isShield)
             {
                 if(canEnemyHit)
                 {
