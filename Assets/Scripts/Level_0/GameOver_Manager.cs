@@ -29,13 +29,19 @@ public class GameOver_Manager : MonoBehaviour
     public void startLevel2()
     {
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
 
     public void startLevel3()
     {
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+    }
+
+    public void startLevel4()
+    {
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(4);
     }
 
     public void SetLevelComplete()
