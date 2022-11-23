@@ -358,14 +358,9 @@ public class PlayerController_L15 : MonoBehaviour
             target.gameObject.tag == "Enemy2" ||
             target.gameObject.tag == "Enemy3" ||
             target.gameObject.tag == "Enemy4" ||
-            target.gameObject.tag == "BulletEnemy"
+            target.gameObject.tag == "Enemy5"
         ){
-            if(isShield)
-            {
-                Destroy(target.gameObject);
-                // play sound
-            }
-            else
+            if(!isShield)
             {
                 if(canEnemyHit)
                 {

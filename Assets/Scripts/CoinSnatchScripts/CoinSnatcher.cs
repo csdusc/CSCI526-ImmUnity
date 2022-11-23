@@ -7,7 +7,7 @@ public class CoinSnatcher : MonoBehaviour
     public CoinBarScript coinBar;
     public Transform playerTransform;
     private bool canSnatchCoins;
-    public int range;
+    public float range;
     public CoinSnatcherAnimation snatcherAnimate;
 
     void Start()
