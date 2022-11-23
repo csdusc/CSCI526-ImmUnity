@@ -2108,7 +2108,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WELCOME TO LEVEL 4
+  m_text: WELCOME TO LEVEL 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5472,7 +5472,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 925302253}
         m_TargetAssemblyTypeName: GameOver_Manager, Assembly-CSharp
-        m_MethodName: startLevel4
+        m_MethodName: startLevel3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9306,7 +9306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'WELCOME TO LEVEL 3
+  m_text: 'WELCOME TO LEVEL 4
 
 '
   m_isRightToLeft: 0
@@ -49859,7 +49859,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 992829919}
+      - m_Target: {fileID: 1676159053}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -50737,10 +50737,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989283888}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 989283889}
+        m_TargetAssemblyTypeName: GameOver_Manager, Assembly-CSharp
+        m_MethodName: startLevel2
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -50749,10 +50749,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1676159053}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -50760,7 +50760,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &1399898337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53709,7 +53709,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1676159053}
+      - m_Target: {fileID: 992829919}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -54853,7 +54853,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484501202}
         m_TargetAssemblyTypeName: GameOver_Manager, Assembly-CSharp
-        m_MethodName: startLevel3
+        m_MethodName: startLevel4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
