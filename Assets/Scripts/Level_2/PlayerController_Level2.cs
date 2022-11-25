@@ -21,7 +21,9 @@ public class PlayerController_Level2 : MonoBehaviour
     private bool canEnemyHit;
     private bool shieldActivate;
     private bool heartActivate;
-
+    private int gravityDirection;
+    private bool temp = false;
+    
     public Rigidbody2D rb;
     private Animator anim;
     public GameObject goldenBridge;
@@ -241,7 +243,8 @@ public class PlayerController_Level2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gravityDirection = 1; // 1 means normal, -1 means inverted
+        rb.gravityScale = gravityDirection * 2f;
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         playerHealth = GetComponent<Health>();
@@ -278,7 +281,7 @@ public class PlayerController_Level2 : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && !isJumping)
         {
-            rb.AddForce(new Vector2(rb.velocity.x, jump));  //commented code
+            rb.AddForce(new Vector2(rb.velocity.x, gravityDirection * jump));  //commented code
             isJumping = true;
             jumpSound.Play();
         }
@@ -290,12 +293,22 @@ public class PlayerController_Level2 : MonoBehaviour
         if(move > 0f)
         {
             anim.SetBool("running", true);
-            sprite.flipX = false;
+            if (gravityDirection == 1){
+                sprite.flipX = false;
+            }
+            else{
+                sprite.flipX = true;
+            }
         }
         else if(move < 0f)
         {
             anim.SetBool("running", true);
-            sprite.flipX = true;
+            if (gravityDirection == -1){
+                sprite.flipX = false;
+            }
+            else{
+                sprite.flipX = true;
+            }
         }
         else
         {
@@ -531,6 +544,24 @@ public class PlayerController_Level2 : MonoBehaviour
             {
                 StartCoroutine(cameraController.Shake());
             }
+        } else if(target.tag == "GravityPad")
+        {
+            if(!temp){
+                temp = true;
+                gravityDirection *= -1;
+            
+                if(gravityDirection == 1)
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                }
+
+                rb.gravityScale = gravityDirection * 2f;
+                StartCoroutine(ResetGravityPad());
+            }
         }
     }
 
@@ -547,6 +578,12 @@ public class PlayerController_Level2 : MonoBehaviour
             goldenBridge.transform.localScale = Vector3.Lerp(fromScale, toScale, i);
             yield return 0;
         }
+    }
+
+    private IEnumerator ResetGravityPad()
+    {
+        yield return new WaitForSeconds(0.5f);
+        temp = false;
     }
 
     private IEnumerator ResetShieldPowerup()
