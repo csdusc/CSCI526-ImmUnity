@@ -20,14 +20,14 @@ public class CoinBarScript : MonoBehaviour
 
     public void AddCoins(int coins)
     {
-        totalCoinsCollected++;
+        totalCoinsCollected += coins;
         currentCoins = Mathf.Clamp(currentCoins + coins, 0, maxCoins);
         slider.value = currentCoins;
     }
 
     public void SubCoins(int coins)
     {
-        totalCoinsCollected--;
+        totalCoinsCollected -= coins;
         currentCoins = Mathf.Clamp(currentCoins - coins, 0, maxCoins);
         slider.value = currentCoins;
     }
