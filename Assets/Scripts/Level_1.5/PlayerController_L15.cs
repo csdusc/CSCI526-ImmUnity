@@ -17,7 +17,7 @@ public class PlayerController_L15 : MonoBehaviour
     private bool isJumping;
     private int gravityDirection;
     private bool gravityPadReset = false;
-    private bool isShield;
+    public bool isShield;
     private bool canSawHit;
     private bool canSpikeHit;
     private bool canEnemyHit;
