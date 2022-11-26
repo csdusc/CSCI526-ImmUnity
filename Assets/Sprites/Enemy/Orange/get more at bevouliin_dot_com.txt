@@ -1,0 +1,11 @@
+LAND MONSTER SPRITE SHEETS
+add enemy/villain into your game
+
+file: 
++ transparent PNGs.
++ GIF animation for previews.
+
+Get more game assets (game characters, backgrounds, game kits, and other game arts) at:
+http://bevouliin.com
+
+Game asset – Land monster Spritesheets Game Character. This Game asset suit for game developers, or indie game developers who want to make GUI cartoon game for android or iOS. The Game Asset is made with 100% vector. You can edit it with illustrator software. Best for action, adventure and other side-scrolling game platform. Separated transparent PNG and GIF Previews also included.
