@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.000009059906, y: 0.32953042}
+  m_Offset: {x: 0.041088104, y: -4.376409}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.676694, y: 0.86818945}
+  m_Size: {x: 1.5260696, y: 0.37570858}
   m_EdgeRadius: 0
 --- !u!1 &4237080597200590140
 GameObject:
@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 4237080597200590115}
   - component: {fileID: 4237080597200590113}
   - component: {fileID: 4237080597200590114}
+  - component: {fileID: 7643475700712202132}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy1
@@ -133,7 +134,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6bdf1b1ff94ae4ab88559937a8799979, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 59247a9ff15274837a74726bb6cd5819, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -157,16 +158,36 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.000009059906, y: -0.3651588}
+  m_Offset: {x: 0.013698578, y: -0.1501435}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11.86, y: 11.96}
+    oldSize: {x: 2.04, y: 2.71}
     newSize: {x: 1.12, y: 0.99}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.371041, y: 10.49621}
+  m_Size: {x: 1.7129135, y: 1.6392677}
   m_EdgeRadius: 0
+--- !u!95 &7643475700712202132
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4237080597200590140}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97b8e8869587445e0bf9bbbc817aceaf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
