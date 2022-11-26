@@ -15,7 +15,7 @@ public class PlayerController_Level2 : MonoBehaviour
     public float move;
     public float currentPlatform;
     private bool isJumping;
-    private bool isShield;
+    public bool isShield;
     private bool canSawHit;
     private bool canSpikeHit;
     private bool canEnemyHit;
