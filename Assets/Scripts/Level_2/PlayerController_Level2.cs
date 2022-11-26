@@ -359,6 +359,7 @@ public class PlayerController_Level2 : MonoBehaviour
             target.gameObject.tag == "Enemy2" ||
             target.gameObject.tag == "Enemy3" ||
             target.gameObject.tag == "Enemy4" ||
+            target.gameObject.tag == "Enemy5" ||
             target.gameObject.tag == "BulletEnemy"
         ){
             if(!isShield)
