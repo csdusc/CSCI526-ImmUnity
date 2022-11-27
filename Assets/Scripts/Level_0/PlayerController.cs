@@ -335,8 +335,9 @@ public class PlayerController : MonoBehaviour
     {
         if (target.tag == "Coin")
         {
+            coinBar.AddCoins(1);
             coinCollect.startCoinMove(target.transform.position, ()=>{
-                coinBar.AddCoins(1);
+                // coinBar.AddCoins(1);
             });
             Destroy(target.gameObject);
             coinCollectSound.Play();
