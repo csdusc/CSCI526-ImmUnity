@@ -36,4 +36,12 @@ public class PauseMenu : MonoBehaviour
     public void Home() {
         puaseMenuUI.SetActive(false);
     }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
+    }
 }
