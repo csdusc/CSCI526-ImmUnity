@@ -311,11 +311,21 @@ public class PlayerController : MonoBehaviour
             Die();
         }
 
+        else if (
+            target.gameObject.tag == "SpikeSet1" ||
+            target.gameObject.tag == "SpikeSet2"
+        ){
+            // Send where player loses health
+            // Send(target.gameObject.tag);
+            Die();
+        }
+
         if(
             target.gameObject.tag == "Floor" || 
             target.gameObject.tag == "Platform_0" || 
             target.gameObject.tag == "Platform_1" || 
-            target.gameObject.tag == "Platform_2"
+            target.gameObject.tag == "Platform_2" || 
+            target.gameObject.tag == "Platform_3_L0"
         ){
             isJumping = false;
         }
@@ -364,6 +374,11 @@ public class PlayerController : MonoBehaviour
         {
             _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
             currentPlatform = 2;
+        }
+        else if(target.tag == "SetPlatform3_L0")
+        {
+            _playerObstacleStartTime = DateTime.Now.ToString("h:mm:ss");
+            currentPlatform = 3;
         }
         else if(target.tag == "EndPlatform1")
         {
