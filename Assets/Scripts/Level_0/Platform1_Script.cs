@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platform1_Script : MonoBehaviour
 {
-    private float min_x_left = 1f, max_x_right = 3.85f, speed = 300f, scaleRate = 0.03f;
+    private float min_x_left = 1f, max_x_right = 3.85f, speed = 150f, scaleRate = 0.03f;
     private float max_scale_value = 4.0f;
     private bool canMove;
     private Rigidbody2D body;
@@ -61,10 +61,10 @@ public class Platform1_Script : MonoBehaviour
             // }
 
             if(transform.localScale.x > max_x_right){
-                speed = -200f; // change direction
+                speed = -150f; // change direction
             }
             else if(transform.localScale.x < min_x_left){
-                speed = 200f; // change direction
+                speed = 150f; // change direction
             }
 
             transform.localScale = new Vector3(
